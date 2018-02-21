@@ -61,7 +61,7 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
             _usersDataCollection = (IMongoCollection<IUserData>)_database.GetCollection<TUserData>("users_data");
         }
 
-        public void RegisterUserMenuClass<TUserMenu>() where TUserMenu : UserMenu {
+        public void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu {
             BsonClassMap.RegisterClassMap<TUserMenu>(cm => cm.AutoMap());
         }
 
