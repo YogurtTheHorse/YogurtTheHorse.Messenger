@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="YogurtTheHorse.Messenger.LayoutGenerator.Descriptions" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Generator" name="generator" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Descriptions.LayoutDescription" name="layoutDescription" #>
+using <#=        generator.DefaultNamespace #>.Buttons;
+using System.Collections.Generic;
+using YogurtTheHorse.Messenger.MenuControl.Buttons;
+
+namespace <#=        generator.DefaultNamespace #>.Layouts {
+    public class <#=        layoutDescription.Name #> : ButtonLayout {
+        public <#=        layoutDescription.Name #>() : base(<#=        layoutDescription.ResizeKeyboard.ToString().ToLower() #>, <#=        layoutDescription.OneTimeKeyboard.ToString().ToLower() #>, EButtonType.<#=        layoutDescription.LayoutType #>) {
+            Buttons = new List<List<ButtonInfo>>();
+
+<#    for (int i = 0; i < layoutDescription.Buttons.Count; i++) { #>
+<#        var buttonsRaw = layoutDescription.Buttons[i]; #>
+            Buttons.Add(new List<ButtonInfo>());
+
+<#        foreach (ButtonDescription bd in buttonsRaw) {#>
+            Buttons[<#=                i#>].Add(<#=                ButtonDescriptionToDefenition(bd)#>);
+<#        } #>
+<#    } #>
+        }
+    }
+}
+
+<#+    
+    protected string ButtonDescriptionToDefenition(ButtonDescription bd) { 
+        if (bd.Name != null) {
+            return $"new {bd.Name}()";
+        } else if (bd.ButtonType == ButtonDescription.EButtonType.Navigate) {
+            return $"(\"{bd.Text}\", \"{bd.Data}\")";
+        } else if (bd.ButtonType == ButtonDescription.EButtonType.Input) {
+            return $"\"{bd.Text}\"";
+        } else {
+            throw new NotSupportedException($"{bd.ButtonType} button type is not supported in inline mode");
+        }
+    } 
+#>

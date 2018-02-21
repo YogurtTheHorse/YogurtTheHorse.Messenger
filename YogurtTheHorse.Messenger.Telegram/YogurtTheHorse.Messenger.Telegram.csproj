@@ -1,13 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="4.4.12" />
+    <PackageReference Include="Telegram.Bot" Version="13.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YogurtTheHorse.Messenger.Database.Mongo\YogurtTheHorse.Messenger.Database.Mongo.csproj" />
-    <ProjectReference Include="..\YogurtTheHorse.Messenger.Telegram\YogurtTheHorse.Messenger.Telegram.csproj" />
     <ProjectReference Include="..\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.csproj" />
   </ItemGroup>
 

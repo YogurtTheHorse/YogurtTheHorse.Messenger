@@ -1,0 +1,98 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+    <PackageReference Include="YamlDotNet" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <HintPath>mscorlib</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>System.Core</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Templates\Buttontemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Buttontemplate.ttinclude</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\InlineButtonTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InlineButtonTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\InputButtonTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InputButtonTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\LayoutTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LayoutTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\MenuTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MenuTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\NavigateButtonTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NavigateButtonTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\UserDataTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserDataTemplate.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Templates\ButtonTemplate.ttinclude">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Buttontemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\InlineButtonTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>InlineButtonTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\InputButtonTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>InputButtonTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\LayoutTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>LayoutTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\MenuTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>MenuTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\NavigateButtonTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>NavigateButtonTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\UserDataTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>UserDataTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

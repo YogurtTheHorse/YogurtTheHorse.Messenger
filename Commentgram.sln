@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commentgram.Bot", "Commentgram.Bot\Commentgram.Bot.csproj", "{E97094CF-2416-43E2-BE90-FD15D997BCCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Commentgram.Bot", "Commentgram.Bot\Commentgram.Bot.csproj", "{E97094CF-2416-43E2-BE90-FD15D997BCCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YogurtTheHorse.Messenger", "YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.csproj", "{1998C8AC-D2F3-4083-985B-34CB9E00B9BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YogurtTheHorse.Messenger.Telegram", "YogurtTheHorse.Messenger.Telegram\YogurtTheHorse.Messenger.Telegram.csproj", "{098D56D0-F7C4-4441-A13F-B711BF100DF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YogurtTheHorse.Messenger.Database.Mongo", "YogurtTheHorse.Messenger.Database.Mongo\YogurtTheHorse.Messenger.Database.Mongo.csproj", "{5607A710-30B9-4820-A55A-14CB629C5E9C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YogurtTheHorse.Messenger.LayoutGenerator", "YogurtTheHorse.Messenger.LayoutGenerator\YogurtTheHorse.Messenger.LayoutGenerator.csproj", "{559E2569-4256-4E56-BF12-96432969F796}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{E97094CF-2416-43E2-BE90-FD15D997BCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97094CF-2416-43E2-BE90-FD15D997BCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97094CF-2416-43E2-BE90-FD15D997BCCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1998C8AC-D2F3-4083-985B-34CB9E00B9BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1998C8AC-D2F3-4083-985B-34CB9E00B9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1998C8AC-D2F3-4083-985B-34CB9E00B9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1998C8AC-D2F3-4083-985B-34CB9E00B9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{098D56D0-F7C4-4441-A13F-B711BF100DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{098D56D0-F7C4-4441-A13F-B711BF100DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{098D56D0-F7C4-4441-A13F-B711BF100DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{098D56D0-F7C4-4441-A13F-B711BF100DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5607A710-30B9-4820-A55A-14CB629C5E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5607A710-30B9-4820-A55A-14CB629C5E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5607A710-30B9-4820-A55A-14CB629C5E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5607A710-30B9-4820-A55A-14CB629C5E9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{559E2569-4256-4E56-BF12-96432969F796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559E2569-4256-4E56-BF12-96432969F796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559E2569-4256-4E56-BF12-96432969F796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559E2569-4256-4E56-BF12-96432969F796}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

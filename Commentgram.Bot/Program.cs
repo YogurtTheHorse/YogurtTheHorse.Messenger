@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Commentgram.Bot.Menus;
 
-namespace Commentgram.Bot
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
+using YogurtTheHorse.Messenger.Database.Mongo;
+using YogurtTheHorse.Messenger.MenuControl;
+using YogurtTheHorse.Messenger.Telegram;
+
+namespace Commentgram.Bot {
+    public class Program {
+        public static void Main(string[] args) {
+            MongoDriver mongoDriver = new MongoDriver("commentgram");
+            TelegramMessenger telegramMessenger = new TelegramMessenger("<TOKEN>", mongoDriver);
+            MenuController<CommentgramUserData> menuController = new MenuController<CommentgramUserData>(telegramMessenger);
+            menuController.RegisterMenuInstance(new MainMenu(menuController));
+
+            telegramMessenger.Launch();
         }
     }
 }

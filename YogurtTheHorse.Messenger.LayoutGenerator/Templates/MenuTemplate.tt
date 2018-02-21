@@ -1,0 +1,36 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Generator" name="generator" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Descriptions.MenuDescription" name="menuDescription" #>
+using System;
+
+using <#=        generator.DefaultNamespace #>.Layouts;
+using YogurtTheHorse.Messenger;
+using YogurtTheHorse.Messenger.MenuControl;
+using YogurtTheHorse.Messenger.MenuControl.Buttons;
+<#    if (menuDescription.VariableToAssign.HasValue && menuDescription.VariableToAssign.Value.VariableNamespace != null) { #>
+using <#=            menuDescription.VariableToAssign.Value.VariableNamespace#>;
+<#    }#>
+
+namespace <#=        generator.DefaultNamespace #>.Menus {
+    public class <#=        menuDescription.Name #> : SimpleUserMenu<<#=        generator.UserDataTypeName#>> {
+        protected override string StartMessage => "<#=        menuDescription.StartMessage#>";
+        protected override ButtonLayout Layout { get; }
+
+        public override string MenuName => "<#= menuDescription.Name #>";
+
+        public <#=        menuDescription.Name #>(MenuController<<#=        generator.UserDataTypeName#>> menuController) : base(menuController) {
+            Layout = new <#=        menuDescription.LayoutName #>();
+        }
+
+<#    if (menuDescription.VariableToAssign.HasValue) { #>
+        public override void OnMessage(Message message, <#=            generator.UserDataTypeName#> userData) {
+            userData.<#=            menuDescription.VariableToAssign.Value.Name#> = <#=            menuDescription.VariableToAssign.Value.Convertion.Replace("$value$", "message.Text") #>;
+            _menuController.OpenMenu(message.Recipient, userData, "<#=            menuDescription.MenuToOpenAfterAssign#>");
+        }
+<#    } #>
+    }
+}

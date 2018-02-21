@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "YogurtTheHorse.Messenger.LayoutGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\Commentgram.Bot\\menu.yml"
+    }
+  }
+}

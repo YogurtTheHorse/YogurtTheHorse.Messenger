@@ -1,0 +1,57 @@
+﻿output_path: '.'
+default_namespace: 'Commentgram.Bot'
+default_namespaces: 
+    - 'System'
+
+user_data:
+    name: CommentgramUserData
+
+    variables:
+        SomeValue:
+            type: string
+
+        SomeUserDefinedTypeVar:
+            type: string
+            convert_type: other
+            method: 'String.Join("", new [] { $value$ })'
+
+buttons:
+    SomeInlineButton:
+        text: Test inline text
+        data: some_data
+
+layouts:
+    MainMenuLayout:
+        type: usual
+        one_time: true
+
+        buttons:
+            -
+                - {text: '{InlineMenuName}', data: InlineMenu}
+                - {text: '{InputMenuName}', data: InputMenu}
+
+    InlineMenuLayout:
+        type: inline
+        orientation: vertical
+        buttons: 
+            - SomeInlineButton
+
+
+    EmptyLayout:
+        type: usual
+        one_time: true
+
+        buttons:
+            -
+
+menus:
+    MainMenu:
+        start_message: Hi
+        layout: MainMenuLayout
+
+    SomeVariableMenu:
+        start_message: "Input test field"
+        layout: EmptyLayout
+        variable_name: SomeUserDefinedTypeVar
+        menu_to_open: MainMenu
+

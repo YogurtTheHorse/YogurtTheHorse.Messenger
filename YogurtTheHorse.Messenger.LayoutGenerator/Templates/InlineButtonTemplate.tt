@@ -1,0 +1,14 @@
+﻿<#@ include file="ButtonTemplate.ttinclude" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Generator" name="generator" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Descriptions.ButtonDescription" name="buttonDescription" #>
+<#    PrintHeader(generator, buttonDescription, "InlineButtonInfo");#>
+        public <#=        buttonDescription.Name#>() {
+            Text = "<#=        buttonDescription.Text#>";
+            Data = "<#=        buttonDescription.Data#>";
+
+        }
+
+        public override void Action<TUserData>(object sender, ButtonActionEventArgs<TUserData> e) {
+            throw new NotSupportedException();
+        }
+<#    PrintEnd(generator, buttonDescription);#>

@@ -1,0 +1,6 @@
+﻿<#@ include file="ButtonTemplate.ttinclude" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Generator" name="generator" #>
+<#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Descriptions.ButtonDescription" name="buttonDescription" #>
+<#PrintHeader(generator, buttonDescription, "NavigationButtonInfo");#>
+        public <#=buttonDescription.Name#>() : base("<#=buttonDescription.Text#>", "<#=buttonDescription.Data#>") { }
+<#    PrintEnd(generator, buttonDescription);#>
