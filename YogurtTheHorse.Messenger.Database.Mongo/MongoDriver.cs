@@ -48,7 +48,7 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
             return await _usersDataCollection.Find(ud => ud.ID == id).SingleAsync();
         }
 
-        public async Task SaveUserDataAsync<TUserData>(TUserData userData) where TUserData : IUserData {
+        public async Task SaveUserDataAsync(IUserData userData) {
             //if (!BsonClassMap.IsClassMapRegistered(userData.Menu.GetType())) {
             //    typeof(MongoDriver).GetMethod("RegisterUserMenuClass").MakeGenericMethod(userData.Menu.GetType()).Invoke(this, null);
             //}
@@ -57,6 +57,10 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
         }
 
         public void RegisterUserDataType<TUserData>() where TUserData : IUserData {
+            if (_usersCollection != null) {
+                throw new InvalidOperationException("User data type is already registered");
+            }
+
             BsonClassMap.RegisterClassMap<TUserData>(cm => cm.AutoMap());
             _usersDataCollection = (IMongoCollection<IUserData>)_database.GetCollection<TUserData>("users_data");
         }
@@ -66,21 +70,25 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
         }
 
         public User GetUser(string id) {
-            var tsk = GetUserAsync(id);
-            tsk.RunSynchronously();
-            return tsk.Result;
+            var task = GetUserAsync(id);
+            task.RunSynchronously();
+            return task.Result;
         }
 
         public bool SaveUser(User usr) {
-            throw new NotImplementedException();
+            var task = SaveUserAsync(usr);
+            task.RunSynchronously();
+            return task.Result;
         }
 
         public IUserData GetUserData(string id) {
-            throw new NotImplementedException();
+            var task = GetUserDataAsync(id);
+            task.RunSynchronously();
+            return task.Result;
         }
 
-        public void SaveUserData<TUserData>(TUserData userData) where TUserData : IUserData {
-            throw new NotImplementedException();
+        public void SaveUserData(IUserData userData) {
+            SaveUserDataAsync(userData).RunSynchronously();
         }
-    }
+	}
 }

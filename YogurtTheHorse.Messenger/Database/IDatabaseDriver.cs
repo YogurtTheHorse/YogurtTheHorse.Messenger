@@ -16,10 +16,10 @@ namespace YogurtTheHorse.Messenger.Database {
         bool SaveUser(User usr);
 
         Task<IUserData> GetUserDataAsync(string id);
-        Task SaveUserDataAsync<TUserData>(TUserData userData) where TUserData : IUserData;
+        Task SaveUserDataAsync(IUserData userData);
 
         IUserData GetUserData(string id);
-        void SaveUserData<TUserData>(TUserData userData) where TUserData : IUserData;
+        void SaveUserData(IUserData userData);
 
         Task<ImageInfo> TryGetImageAsync(string imageId);
     }
