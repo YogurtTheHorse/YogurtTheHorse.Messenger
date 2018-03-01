@@ -3,4 +3,5 @@
 <#@ parameter type="YogurtTheHorse.Messenger.LayoutGenerator.Descriptions.ButtonDescription" name="buttonDescription" #>
 <#    PrintHeader(generator, buttonDescription, "UsualButtonInfo");#>
         public <#=        buttonDescription.Name#>() : base("<#=        buttonDescription.Text#>") { }
+<#    PrintAction(buttonDescription);#>
 <#    PrintEnd(generator, buttonDescription);#>

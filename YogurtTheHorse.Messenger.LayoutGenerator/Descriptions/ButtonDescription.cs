@@ -17,6 +17,7 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Descriptions {
         public string Text { get; }
         public object Data { get; }
         public string Name { get; }
+		public string Action { get; }
 
         public ButtonDescription(dynamic d) : this(null, (DynamicObject)d) { }
 
@@ -33,6 +34,7 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Descriptions {
 
             Text = d.text ?? "";
             Data = d.data;
+			Action = d.action;
         }
     }
 }

@@ -123,6 +123,40 @@ this.Write("    }\r\n}\r\n");
         
         #line default
         #line hidden
+        
+        #line 22 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\Buttontemplate.ttinclude"
+    protected void PrintAction(ButtonDescription buttonDescription) { 
+        
+        #line default
+        #line hidden
+        
+        #line 22 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\Buttontemplate.ttinclude"
+this.Write("       public override void Action<TUserData>(object sender, ButtonActionEventArg" +
+        "s<TUserData> e) {\r\n            ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 24 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\Buttontemplate.ttinclude"
+this.Write(this.ToStringHelper.ToStringWithCulture(buttonDescription.Action));
+
+        
+        #line default
+        #line hidden
+        
+        #line 24 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\Buttontemplate.ttinclude"
+this.Write(";\r\n        } \r\n");
+
+        
+        #line default
+        #line hidden
+        
+        #line 26 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\Buttontemplate.ttinclude"
+    }
+        
+        #line default
+        #line hidden
     }
     
     #line default

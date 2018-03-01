@@ -54,6 +54,12 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Templates
             this.Write("\") { }\r\n");
             
             #line 6 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\InputButtonTemplate.tt"
+    PrintAction(buttonDescription);
+            
+            #line default
+            #line hidden
+            
+            #line 7 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\InputButtonTemplate.tt"
     PrintEnd(generator, buttonDescription);
             
             #line default
@@ -62,70 +68,76 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Templates
         }
         
         #line 8 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
-    
     protected void PrintHeader(Generator generator, ButtonDescription buttonDescription, string basetype) { 
         
         #line default
         #line hidden
         
-        #line 10 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 8 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+this.Write(" \r\n");
+
+        
+        #line default
+        #line hidden
+        
+        #line 9 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(generator.GetDefaultNamespacesString()));
 
         
         #line default
         #line hidden
         
-        #line 10 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
-this.Write("\r\nusing YogurtTheHorse.Messenger.MenuControl;\r\nusing YogurtTheHorse.Messenger.Men" +
-        "uControl.Buttons;\r\n\r\nnamespace ");
+        #line 9 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+this.Write(" \r\nusing YogurtTheHorse.Messenger.MenuControl;\r\nusing YogurtTheHorse.Messenger.Me" +
+        "nuControl.Buttons;\r\n\r\nnamespace ");
 
         
         #line default
         #line hidden
         
-        #line 14 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 13 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(generator.DefaultNamespace));
 
         
         #line default
         #line hidden
         
-        #line 14 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 13 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write(".Buttons {\r\n\tpublic class ");
 
         
         #line default
         #line hidden
         
-        #line 15 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 14 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(buttonDescription.Name));
 
         
         #line default
         #line hidden
         
-        #line 15 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 14 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write(" : ");
 
         
         #line default
         #line hidden
         
-        #line 15 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 14 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write(this.ToStringHelper.ToStringWithCulture(basetype));
 
         
         #line default
         #line hidden
         
-        #line 15 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 14 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write(" {\r\n");
 
         
         #line default
         #line hidden
         
-        #line 16 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 15 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
     } 
 
     protected void PrintEnd(Generator generator, ButtonDescription buttonDescription) { 
@@ -133,14 +145,48 @@ this.Write(" {\r\n");
         #line default
         #line hidden
         
-        #line 18 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 17 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
 this.Write("    }\r\n}\r\n");
 
         
         #line default
         #line hidden
         
-        #line 21 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+        #line 20 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+    }
+        
+        #line default
+        #line hidden
+        
+        #line 22 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+    protected void PrintAction(ButtonDescription buttonDescription) { 
+        
+        #line default
+        #line hidden
+        
+        #line 22 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+this.Write("       public override void Action<TUserData>(object sender, ButtonActionEventArg" +
+        "s<TUserData> e) {\r\n            ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 24 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+this.Write(this.ToStringHelper.ToStringWithCulture(buttonDescription.Action));
+
+        
+        #line default
+        #line hidden
+        
+        #line 24 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
+this.Write(";\r\n        } \r\n");
+
+        
+        #line default
+        #line hidden
+        
+        #line 26 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\ButtonTemplate.ttinclude"
     }
         
         #line default

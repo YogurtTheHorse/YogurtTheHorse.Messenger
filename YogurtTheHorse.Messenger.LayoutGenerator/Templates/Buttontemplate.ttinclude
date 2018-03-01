@@ -19,3 +19,9 @@ namespace <#=        generator.DefaultNamespace #>.Buttons {
 }
 <#+    }#>
 
+<#+    protected void PrintAction(ButtonDescription buttonDescription) { #>
+       public override void Action<TUserData>(object sender, ButtonActionEventArgs<TUserData> e) {
+            <#=        buttonDescription.Action#>;
+        } 
+<#+    }#>
+

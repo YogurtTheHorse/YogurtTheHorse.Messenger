@@ -8,7 +8,6 @@
 
         }
 
-        public override void Action<TUserData>(object sender, ButtonActionEventArgs<TUserData> e) {
-            throw new NotSupportedException();
-        }
+<#    PrintAction(buttonDescription);#>
+
 <#    PrintEnd(generator, buttonDescription);#>
