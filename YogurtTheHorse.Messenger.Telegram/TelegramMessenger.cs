@@ -21,18 +21,15 @@ namespace YogurtTheHorse.Messenger.Telegram {
         public TelegramMessenger(string token, IDatabaseDriver databaseDriver) {
             Database = databaseDriver;
             _telegramBotClient = new TelegramBotClient(token);
-        }
+		}
 
         public async Task<User> GetUserAsync(string id) {
             return await Database.GetUserAsync(id);
         }
 
         private async Task<User> GetUserAsync(global::Telegram.Bot.Types.User tlgrmUser) {
-            User usr = await GetUserAsync(tlgrmUser.Id.ToString());
-
-            if (usr == null) {
-                usr = new User(this, tlgrmUser.Id.ToString());
-            }
+			string id = tlgrmUser.Id.ToString();
+			User usr = await GetUserAsync(id) ?? new User(this, id);
 
             if (tlgrmUser.UpdateUser(usr)) { await usr.Save(); }
 
@@ -44,23 +41,22 @@ namespace YogurtTheHorse.Messenger.Telegram {
         }
 
         public void Launch() {
-            _telegramBotClient.OnMessage += (s, e) => OnIncomingMessage?.Invoke(CreateMessage(e.Message));
+            _telegramBotClient.OnMessage += async (s, e) => OnIncomingMessage?.Invoke(await CreateMessageAsync(e.Message));
 
             var botInfo = _telegramBotClient.GetMeAsync().Result;
 
             _logger.Info($"Working with ${botInfo.Username}.");
             _telegramBotClient.StartReceiving();
-        }
 
-        private Message CreateMessage(global::Telegram.Bot.Types.Message message, ImageInfo image = null) {
-            Task<User> usrTask = GetUserAsync(message.From);
-            usrTask.Start();
-            usrTask.Wait();
+		}
+
+        private async Task<Message> CreateMessageAsync(global::Telegram.Bot.Types.Message message, ImageInfo image = null) {
+            User usrTask = await GetUserAsync(message.From);
 
             return new Message() {
                 MessageType = message.Type.ToYogurtType(),
                 Text = message.Text,
-                Recipient = usrTask.Result,
+                Recipient = usrTask,
                 ImageInfo = image
             };
         }
@@ -72,7 +68,7 @@ namespace YogurtTheHorse.Messenger.Telegram {
         }
 
         public async Task SendMessageAsync(Message message) {
-            ChatId chatId = new ChatId(message.Recipient.ID);
+            ChatId chatId = new ChatId(message.Recipient.UserID);
             switch (message.MessageType) {
                 case MessageType.Text:
                     await _telegramBotClient.SendTextMessageAsync(chatId, message.Text);

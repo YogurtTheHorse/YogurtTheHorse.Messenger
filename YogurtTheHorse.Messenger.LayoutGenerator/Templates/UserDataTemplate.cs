@@ -50,31 +50,31 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Templates
             
             #line default
             #line hidden
-            this.Write(" : IUserData {\r\n\t\tpublic string ID { get; private set; }\r\n\t\tpublic string MenuNam" +
-                    "e { get; set; }\r\n\r\n");
+            this.Write(" : IUserData {\r\n\t\tpublic string UserID { get; private set; }\r\n\t\tpublic string Men" +
+                    "uName { get; set; }\r\n        public string Locale { get; set; }\r\n\r\n");
             
-            #line 17 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 18 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
  foreach (VariableDescription vd in generator.GetUserVariablesDescriptions()) { 
             
             #line default
             #line hidden
             this.Write("\t\tpublic ");
             
-            #line 18 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 19 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(vd.VariableType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 18 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 19 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(vd.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 19 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 20 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
  }
             
             #line default

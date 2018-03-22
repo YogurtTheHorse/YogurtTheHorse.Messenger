@@ -2,7 +2,7 @@
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
 
 namespace YogurtTheHorse.Messenger.MenuControl {
-    public abstract class SimpleUserMenu<TUserData> : IUserMenu where TUserData : IUserData {
+    public abstract class SimpleUserMenu<TUserData> : IUserMenu where TUserData : class, IUserData {
         protected MenuController<TUserData> _menuController;
 
         protected abstract ButtonLayout Layout { get; }

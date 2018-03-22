@@ -7,7 +7,7 @@ namespace YogurtTheHorse.Messenger {
 
         public string PlatformName => _messenger.PlatformName;
 
-        public string ID { get; }
+        public string UserID { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
@@ -15,7 +15,7 @@ namespace YogurtTheHorse.Messenger {
 
         public User(IMessenger messenger, string id) {
             _messenger = messenger;
-            ID = id;
+            UserID = id;
         }
 
         public async Task<bool> Save() {

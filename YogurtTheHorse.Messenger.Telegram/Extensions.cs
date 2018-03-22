@@ -16,7 +16,7 @@ namespace YogurtTheHorse.Messenger.Telegram {
         public static bool UserEquals(this global::Telegram.Bot.Types.User originalUsr, User usr) {
             return
                 usr.PlatformName == TelegramMessenger.PLATFORM_NAME &&
-                originalUsr.Id.ToString() == usr.ID &&
+                originalUsr.Id.ToString() == usr.UserID &&
                 originalUsr.FirstName == usr.FirstName &&
                 originalUsr.LastName == usr.LastName &&
                 originalUsr.Username == usr.Username &&
