@@ -6,13 +6,13 @@ using YogurtTheHorse.Messenger.Database;
 using NLog;
 
 namespace YogurtTheHorse.Messenger.MenuControl {
-	public class MenuController<TUserData> where TUserData : IUserData {
+	public class MenuController<TUserData> where TUserData : class, IUserData {
 		private static Logger _logger = LogManager.GetLogger("MenuControllger");
 
 		private IDatabaseDriver _database => Messenger.Database;
 		private ConcurrentDictionary<string, IUserMenu> _menus;
 
-		public IMessenger Messenger;
+		public IMessenger Messenger { get; }
 
 
 		public MenuController(IMessenger messenger) {
@@ -21,9 +21,8 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			_menus = new ConcurrentDictionary<string, IUserMenu>();
 
 			_database.RegisterUserDataType<TUserData>();
+			Messenger.OnIncomingMessage += OnMessage;
 		}
-
-		public void SomeMethod(string name) => Console.WriteLine($"Hello, {name}");
 
 
 		public void OpenMenu(User user, IUserData userData, string menuName) {
@@ -52,7 +51,10 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 		}
 
 		public void OnMessage(Message message) {
-			IUserData userData = _database.GetUserData(message.Recipient.UserID) ?? default(TUserData);
+			TUserData userData = (TUserData)_database.GetUserData(message.Recipient.UserID);
+			if (userData is null) {
+				userData = (TUserData)Activator.CreateInstance(typeof(TUserData), message.Recipient.UserID);
+			}
 
 			if (_menus.ContainsKey(userData.MenuName)) {
 				_menus[userData.MenuName].OnMessage(message, userData);
