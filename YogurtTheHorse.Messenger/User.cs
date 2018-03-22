@@ -23,15 +23,17 @@ namespace YogurtTheHorse.Messenger {
         }
 
         public void SendMessage(string text, ButtonLayout layout) {
-            SendMessageAsync(text, layout).RunSynchronously();
+			AsyncHelpers.RunSync(() => SendMessageAsync(text, layout));
         }
 
         public async Task SendMessageAsync(string text, ButtonLayout layout) {
-            await _messenger.SendMessageAsync(new Message() {
-                Text = text,
-                Recipient = this,
-                Layout = layout
-            });
+			Message message = new Message() {
+				Text = text,
+				Recipient = this,
+				Layout = layout
+			};
+
+			await _messenger.SendMessageAsync(message);
         }
     }
 }

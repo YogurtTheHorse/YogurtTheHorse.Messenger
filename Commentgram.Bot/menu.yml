@@ -7,6 +7,12 @@ user_data:
     name: CommentgramUserData
 
     variables:
+        InstagramLogin:
+            type: string
+
+        InstagramPassowrd:
+            type: string
+       
         SomeValue:
             type: string
 
@@ -16,42 +22,45 @@ user_data:
             method: 'String.Join("", new [] { $value$ })'
 
 buttons:
-    SomeInlineButton:
-        text: Test inline text
-        data: some_data
+    ShowHelpButton:
+        text: '{Info.Help}'
+        action: '/* show help */'
+
+    FollowingButton:
+        text: '{AccountMenu.Following}'
+        action: /* update following type */
 
 layouts:
+    AccountLayout:
+        type: usual
+        one_time: true
+        orientation: vertical
+
+        buttons:
+          - {text: '{AccountMenu.WalletNumber}', menu_to_open: WalletMenu}
+          - {text: '{AccountMenu.Money}', menu_to_open: MoneyMenu}
+          - FollowingButton
+
     MainMenuLayout:
         type: usual
         one_time: true
 
         buttons:
             -
-                - {text: '{InlineMenuName}', data: InlineMenu}
-                - {text: '{InputMenuName}', data: InputMenu}
-
-    InlineMenuLayout:
-        type: inline
-        orientation: vertical
-        buttons: 
-            - SomeInlineButton
-
-
-    EmptyLayout:
-        type: usual
-        one_time: true
-
-        buttons:
+                - {text: '{MainMenu.Comment}', menu_to_open: CommentMenu}
+                - {text: '{MainMenu.Instagram}', menu_to_open: InstagramMenu}
             -
+                - {text: '{MainMenu.Account}', menu_to_open: AccountMenu}
+                - ShowHelpButton
+
+    
 
 menus:
     MainMenu:
-        start_message: Hi
+        start_message: "{MainMenu.StartMessage}"
         layout: MainMenuLayout
 
-    SomeVariableMenu:
-        start_message: "Input test field"
-        layout: EmptyLayout
-        variable_name: SomeUserDefinedTypeVar
-        menu_to_open: MainMenu
+    AccountMenu:
+      start_message: "{AccountMenu.StartMessage}"
+      layout: AccountLayout
 
