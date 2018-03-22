@@ -18,21 +18,33 @@ namespace YogurtTheHorse.Messenger.MenuControl {
             user.SendMessage(StartMessage, Layout);
         }
 
-        public virtual void OnMessage(Message message, IUserData userData) {
+        public void OnMessage(Message message, IUserData userData) {
             OnMessage(message, (TUserData)userData);
-        }
+		}
 
-        public virtual void OnMessage(Message message, TUserData userData) {
+		public void OnUnusualMessage(Message message, IUserData userData) {
+			OnUnusualMessage(message, (TUserData)userData);
+		}
+		public virtual void OnUnusualMessage(Message message, TUserData userData) {
+			Open(message.Recipient, userData, _menuController);
+		}
+
+		public virtual void OnMessage(Message message, TUserData userData) {
             if (Layout.LayoutType != EButtonType.Usual) { return; }
 
             ButtonInfo bi = Layout.GetButtons().FirstOrDefault(b => b.Text == message.Text);
-            bi?.Action(this, new ButtonActionEventArgs<TUserData>() {
-                ButtonClickType = EButtonType.Usual,
-                Data = bi.Data,
-                MenuController = _menuController,
-                User = message.Recipient,
-                UserData = userData
-            });
+
+			if (bi is null) {
+				OnUnusualMessage(message, userData);
+			} else {
+				bi.Action(this, new ButtonActionEventArgs<TUserData>() {
+					ButtonClickType = EButtonType.Usual,
+					Data = bi.Data,
+					MenuController = _menuController,
+					User = message.Recipient,
+					UserData = userData
+				});
+			}
         }
 
         public virtual void Close(User user, IUserData userData, object sender) { }

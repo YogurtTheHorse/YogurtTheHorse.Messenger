@@ -63,8 +63,6 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 
 		private void CheckButtonsType() { }
 
-		public virtual void OnUnusualMessage(Message message) { }
-
 		#region Enumerators
 		public IEnumerable<ButtonInfo> GetButtons() {
             foreach (var lb in Buttons) {
