@@ -6,7 +6,7 @@ namespace YogurtTheHorse.Messenger.Database {
         void Connect();
         void Connect(string url);
 
-        void RegisterUserDataType<T>() where T : IUserData;
+        void RegisterUserDataType<TUserData>() where TUserData : IUserData;
         void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu;
 
         Task<User> GetUserAsync(string id);
