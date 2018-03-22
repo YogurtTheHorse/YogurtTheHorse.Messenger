@@ -6,7 +6,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
         public string Text { get; set; }
         public string Data { get; set; }
 
-        public abstract void Action<TUserData>(object sender, ButtonActionEventArgs<TUserData> e) where TUserData : IUserData;
+        public abstract void Action<TUserData>(object sender, ButtonActionEventArgs<TUserData> e) where TUserData : class, IUserData;
 
         public static implicit operator ButtonInfo((string, string) tup) {
             return new NavigationButtonInfo(tup.Item1, tup.Item2);
@@ -17,7 +17,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
         }
     }
 
-    public class ButtonActionEventArgs<TUserData> : EventArgs where TUserData : IUserData {
+    public class ButtonActionEventArgs<TUserData> : EventArgs where TUserData : class, IUserData {
         public User User { get; set; }
         public IUserData UserData { get; set; }
         public MenuController<TUserData> MenuController { get; set; }

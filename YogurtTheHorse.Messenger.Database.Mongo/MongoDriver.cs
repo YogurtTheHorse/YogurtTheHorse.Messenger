@@ -1,94 +1,98 @@
 ﻿using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
-
+using System.Linq;
 using System.Threading.Tasks;
 using YogurtTheHorse.Messenger.MenuControl;
 
 namespace YogurtTheHorse.Messenger.Database.Mongo {
-    public class MongoDriver : IDatabaseDriver {
-        private IMongoDatabase _database;
-        private IMongoCollection<User> _usersCollection;
-        private IMongoCollection<IUserData> _usersDataCollection;
+	public class MongoDriver<TUserData> : IDatabaseDriver where TUserData : IUserData {
+		private IMongoDatabase _database;
+		private IMongoCollection<User> _usersCollection;
+		private IMongoCollection<TUserData> _usersDataCollection;
 
-        public string DatabaseName { get; protected set; }
+		public string DatabaseName { get; protected set; }
 
-        public MongoDriver(string databaseName) {
-            DatabaseName = databaseName;
+		public MongoDriver(string databaseName) {
+			DatabaseName = databaseName;
 
-            BsonClassMap.RegisterClassMap<User>(cm => {
-                cm.AutoMap();
-            });
-        }
+			BsonClassMap.RegisterClassMap<User>(cm => {
+				cm.AutoMap();
+			});
+		}
 
-        public void Connect() {
-            Connect("mongodb://localhost:27017");
-        }
+		public void Connect() {
+			Connect("mongodb://localhost:27017");
+		}
 
-        public void Connect(string url) {
-            MongoClient mongo = new MongoClient(url);
+		public void Connect(string url) {
+			MongoClient mongo = new MongoClient(url);
 
-            _database = mongo.GetDatabase(DatabaseName);
-            _usersCollection = _database.GetCollection<User>("users");
-        }
+			_database = mongo.GetDatabase(DatabaseName);
+			_usersCollection = _database.GetCollection<User>("users");
 
-        public async Task<User> GetUserAsync(string id) {
-            return await _usersCollection.Find(u => u.ID == id).SingleAsync();
-        }
 
-        public async Task<bool> SaveUserAsync(User usr) {
-            return (await _usersCollection.ReplaceOneAsync(u => u.ID == usr.ID, usr, new UpdateOptions { IsUpsert = true })).MatchedCount > 0;
-        }
+			BsonClassMap.RegisterClassMap<TUserData>(cm => cm.AutoMap());
 
-        public Task<ImageInfo> TryGetImageAsync(string imageId) {
-            throw new NotImplementedException();
-        }
+			_usersDataCollection = _database.GetCollection<TUserData>("users_data");
+		}
 
-        public async Task<IUserData> GetUserDataAsync(string id) {
-            return await _usersDataCollection.Find(ud => ud.ID == id).SingleAsync();
-        }
+		public async Task<User> GetUserAsync(string id) {
+			FilterDefinition<User> filter = $"{{ UserId: {id} }}";
+			return (await _usersCollection.Find(filter).Limit(1).ToListAsync()).FirstOrDefault();
+		}
 
-        public async Task SaveUserDataAsync(IUserData userData) {
-            //if (!BsonClassMap.IsClassMapRegistered(userData.Menu.GetType())) {
-            //    typeof(MongoDriver).GetMethod("RegisterUserMenuClass").MakeGenericMethod(userData.Menu.GetType()).Invoke(this, null);
-            //}
+		public async Task<bool> SaveUserAsync(User usr) {
+			FilterDefinition<User> filter = $"{{ UserId: {usr.UserID} }}";
+			var result = await _usersCollection.ReplaceOneAsync(filter, usr, new UpdateOptions { IsUpsert = true });
 
-            await _usersDataCollection.ReplaceOneAsync(u => u.ID == userData.ID, userData, new UpdateOptions { IsUpsert = true });
-        }
+			return result.MatchedCount > 0;
+		}
 
-        public void RegisterUserDataType<TUserData>() where TUserData : IUserData {
-            if (_usersCollection != null) {
-                throw new InvalidOperationException("User data type is already registered");
-            }
+		public Task<ImageInfo> TryGetImageAsync(string imageId) {
+			throw new NotImplementedException();
+		}
 
-            BsonClassMap.RegisterClassMap<TUserData>(cm => cm.AutoMap());
-            _usersDataCollection = (IMongoCollection<IUserData>)_database.GetCollection<TUserData>("users_data");
-        }
+		public async Task<IUserData> GetUserDataAsync(string id) {
+			FilterDefinition<TUserData> filter = $"{{ UserID: {id}}}";
+			var results = await _usersDataCollection.Find(filter).Limit(1).ToListAsync();
 
-        public void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu {
-            BsonClassMap.RegisterClassMap<TUserMenu>(cm => cm.AutoMap());
-        }
+			return results.FirstOrDefault();
+		}
 
-        public User GetUser(string id) {
-            var task = GetUserAsync(id);
-            task.RunSynchronously();
-            return task.Result;
-        }
+		public async Task SaveUserDataAsync(IUserData userData) {
+			FilterDefinition<TUserData> filter = $"{{ ID: {userData.UserID}}}";
+			await _usersDataCollection.ReplaceOneAsync(filter, (TUserData)userData, new UpdateOptions { IsUpsert = true });
+		}
 
-        public bool SaveUser(User usr) {
-            var task = SaveUserAsync(usr);
-            task.RunSynchronously();
-            return task.Result;
-        }
+		public void RegisterUserDataType<T>() where T : IUserData {
+			if (typeof(T) != typeof(TUserData)) {
+				throw new InvalidOperationException("User data type is already registered");
+			}
+		}
 
-        public IUserData GetUserData(string id) {
-            var task = GetUserDataAsync(id);
-            task.RunSynchronously();
-            return task.Result;
-        }
+		public void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu {
+			BsonClassMap.RegisterClassMap<TUserMenu>(cm => cm.AutoMap());
+		}
 
-        public void SaveUserData(IUserData userData) {
-            SaveUserDataAsync(userData).RunSynchronously();
-        }
+		public User GetUser(string id) {
+			var task = GetUserAsync(id);
+			task.RunSynchronously();
+			return task.Result;
+		}
+
+		public bool SaveUser(User usr) {
+			var task = SaveUserAsync(usr);
+			task.RunSynchronously();
+			return task.Result;
+		}
+
+		public IUserData GetUserData(string id) {
+			return GetUserDataAsync(id).GetAwaiter().GetResult();
+		}
+
+		public void SaveUserData(IUserData userData) {
+			SaveUserDataAsync(userData).RunSynchronously();
+		}
 	}
 }

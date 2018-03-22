@@ -24,16 +24,20 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Descriptions {
         public ButtonDescription(string name, dynamic d) {
             Name = name ?? d.name;
 
-            string buttonTypeString = d.button_type ?? (d.data == null ? "input" : "navigate");
+            string buttonTypeString = d.button_type ?? (d.menu_to_open != null ? "navigate" : "input");
             
             if (!Enum.TryParse(buttonTypeString, true, out EButtonType buttonType) || buttonType == EButtonType.Incorrect) {
                 throw new InvalidOperationException($"Unsupported button type: {buttonTypeString}");
             }
 
+			if (buttonType == EButtonType.Navigate && d.menu_to_open == null) {
+				throw new InvalidOperationException($"Navigation button must has `menu_to_open` field. {name} doesn't have it.");
+			}
+
             ButtonType = buttonType;
 
             Text = d.text ?? "";
-            Data = d.data;
+            Data = buttonType == EButtonType.Navigate ? d.menu_to_open : d.data;
 			Action = d.action;
         }
     }

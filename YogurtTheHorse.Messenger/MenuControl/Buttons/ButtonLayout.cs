@@ -10,7 +10,8 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
         public virtual bool ResizeKeyboard { get; }
         public virtual bool OneTimeKeyboard { get; }
 
-        public ButtonLayout() : this(false, false) { }
+		#region Constructors
+		public ButtonLayout() : this(false, false) { }
 
         public ButtonLayout(bool resizeKeyboard, bool oneTimeKeyboard) :
             this(resizeKeyboard, oneTimeKeyboard, EButtonType.Other) { }
@@ -20,6 +21,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
             OneTimeKeyboard = oneTimeKeyboard;
 
             Buttons = new List<List<ButtonInfo>>();
+			LayoutType = layoutType;
         }
 
         public ButtonLayout(IEnumerable<ButtonInfo> buttons, bool isVertical, bool resizeKeyboard, bool oneTimeKeyboard) :
@@ -38,18 +40,33 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
             CheckButtonsType();
         }
 
-        private void CheckButtonsType() {
-        }
-
         public ButtonLayout(List<List<ButtonInfo>> buttons) : this(buttons, false, false) { }
 
         public ButtonLayout(List<List<ButtonInfo>> buttons, bool resizeKeyboard, bool oneTimeKeyboard) : this(resizeKeyboard, oneTimeKeyboard) {
             Buttons = buttons;
 
             CheckButtonsType();
-        }
+		}
 
-        public IEnumerable<ButtonInfo> GetButtons() {
+		public static implicit operator ButtonLayout(ButtonInfo[] btns) {
+			var buttons = new List<List<ButtonInfo>> {
+				btns.ToList()
+			};
+
+			return new ButtonLayout(buttons);
+		}
+
+		public static implicit operator ButtonLayout(ButtonInfo[,] btns) {
+			return new ButtonLayout(btns.ToList());
+		}
+		#endregion
+
+		private void CheckButtonsType() { }
+
+		public virtual void OnUnusualMessage(Message message) { }
+
+		#region Enumerators
+		public IEnumerable<ButtonInfo> GetButtons() {
             foreach (var lb in Buttons) {
                 foreach (var bi in lb) {
                     yield return bi;
@@ -63,18 +80,6 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
             }
         }
 
-        public static implicit operator ButtonLayout(ButtonInfo[] btns) {
-            var buttons = new List<List<ButtonInfo>> {
-                btns.ToList()
-            };
-
-            return new ButtonLayout(buttons);
-        }
-
-        public static implicit operator ButtonLayout(ButtonInfo[,] btns) {
-            return new ButtonLayout(btns.ToList());
-        }
-
         public IEnumerator<List<ButtonInfo>> GetEnumerator() {
             return Buttons.GetEnumerator();
         }
@@ -82,5 +87,6 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
         IEnumerator IEnumerable.GetEnumerator() {
             return Buttons.GetEnumerator();
         }
-    }
+		#endregion
+	}
 }
