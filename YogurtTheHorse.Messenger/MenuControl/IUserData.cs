@@ -5,6 +5,6 @@ namespace YogurtTheHorse.Messenger.MenuControl {
         string UserID { get; set; }
 		string Locale { get; set; }
 
-		Stack<string> MenuStack { get; }
+		Stack<string> MenuStack { get; set; }
     }
 }

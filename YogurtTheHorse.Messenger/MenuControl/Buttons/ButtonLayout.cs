@@ -48,6 +48,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 		public ButtonLayout(ICollection<ICollection<ButtonInfo>> buttons, bool resizeKeyboard, bool oneTimeKeyboard) : this(resizeKeyboard, oneTimeKeyboard) {
 			Buttons = new List<List<ButtonInfo>>();
 			Buttons.AddRange(buttons.Select(row => new List<ButtonInfo>(row)));
+			LayoutType = Buttons.FirstOrDefault(row => row.Count > 0)?.FirstOrDefault()?.ButtonType ?? EButtonType.Other;
 
 			CheckButtonsType();
 		}

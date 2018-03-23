@@ -5,7 +5,7 @@ using System.Text;
 namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 	public sealed class CallbackButtonInfo<TUserData> : UsualButtonInfo where TUserData : class, IUserData {
 		private Action<object, ButtonActionEventArgs<TUserData>> _callback;
-		public override EButtonType ButtonType { get; }
+		public override EButtonType ButtonType => EButtonType.Usual;
 
 		public CallbackButtonInfo(string text, Action<object, ButtonActionEventArgs<TUserData>> callback) : base(text) {
 			_callback = callback;

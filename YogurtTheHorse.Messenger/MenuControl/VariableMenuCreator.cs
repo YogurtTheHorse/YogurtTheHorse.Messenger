@@ -9,11 +9,11 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 				Expression<Func<TUserData, TVariable>> memberExpression,
 				Func<string, TVariable> parse) where TUserData : class, IUserData {
 			var menu = new VariableUserMenu<TUserData, TVariable>(controller, memberExpression, parse);
+			
 			try {
 				controller.RegisterMenuInstance(menu);
-			} catch (ArgumentException e) {
-				throw new ArgumentException("Variable menu for that member alread registered", e);
-			}
+			} catch (ArgumentException) { }
+
 			return menu;
 		}
 
