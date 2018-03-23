@@ -3,13 +3,13 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace YogurtTheHorse.Messenger.MenuControl {
-	public static class VariableMenuCreator {
-		public static VariableUserMenu<TUserData, TVariable> CreateVariableMenu<TUserData, TVariable>(
-				MenuController<TUserData> controller,
+	public static class VariableMenuCreator<TUserData, TVariable> where TUserData : UserData {
+		public static VariableUserMenu<TUserData, TVariable> CreateVariableMenu(
+				MenuController controller,
 				Expression<Func<TUserData, TVariable>> memberExpression,
-				Func<string, TVariable> parse) where TUserData : class, IUserData {
+				Func<string, TVariable> parse) {
 			var menu = new VariableUserMenu<TUserData, TVariable>(controller, memberExpression, parse);
-			
+
 			try {
 				controller.RegisterMenuInstance(menu);
 			} catch (ArgumentException) { }
@@ -17,16 +17,10 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			return menu;
 		}
 
-		public static VariableUserMenu<TUserData, string> CreateVariableMenu<TUserData, TVariable>(
-				MenuController<TUserData> controller,
-				Expression<Func<TUserData, string>> memberExpression) where TUserData : class, IUserData {
-			return CreateVariableMenu(controller, memberExpression, s => s);
-		}
-
-		public static VariableUserMenu<TUserData, TVariable> CreateVariableMenu<TUserData, TVariable>(
-				MenuController<TUserData> controller,
+		public static VariableUserMenu<TUserData, TVariable> CreateVariableMenu(
+				MenuController controller,
 				Expression<Func<TUserData, TVariable>>
-				memberExpression) where TUserData : class, IUserData {
+				memberExpression) {
 			TypeConverter converter = TypeDescriptor.GetConverter(typeof(TVariable));
 
 

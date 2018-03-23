@@ -20,8 +20,4 @@ namespace YogurtTheHorse.Messenger {
 
 		event MessageEventHandler OnIncomingMessage;
 	}
-
-    public interface IMessenger<TUserData> : IMessenger where TUserData : IUserData {
-		new IDatabaseDriver<TUserData> Database { get; }
-    }
 }

@@ -1,28 +1,22 @@
 ﻿using System;
 
 namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
-    public abstract class ButtonInfo {
-        public abstract EButtonType ButtonType { get; }
-        public string Text { get; set; }
-        public string Data { get; set; }
+	public class ButtonInfo {
+		public virtual EButtonType ButtonType { get; set; }
+		public string Text { get; set; }
+		public string Data { get; set; }
 
-        public abstract void Action<TUserData>(object sender, ButtonActionEventArgs<TUserData> e) where TUserData : class, IUserData;
+		public virtual bool Hide => false;
 
-        public static implicit operator ButtonInfo((string, string) tup) {
-            return new NavigationButtonInfo(tup.Item1, tup.Item2);
-        }
+		public virtual void Action(object sender, ButtonActionEventArgs e) { }
+	}
 
-        public static implicit operator ButtonInfo(string s) {
-            return new UsualButtonInfo(s);
-        }
-    }
+	public class ButtonActionEventArgs : EventArgs  {
+		public User User { get; set; }
+		public UserData UserData { get; set; }
+		public MenuController MenuController { get; set; }
 
-    public class ButtonActionEventArgs<TUserData> : EventArgs where TUserData : class, IUserData {
-        public User User { get; set; }
-        public TUserData UserData { get; set; }
-        public MenuController<TUserData> MenuController { get; set; }
-
-        public EButtonType ButtonClickType { get; set; }
-        public object Data { get; set; }
-    }
+		public EButtonType ButtonClickType { get; set; }
+		public object Data { get; set; }
+	}
 }

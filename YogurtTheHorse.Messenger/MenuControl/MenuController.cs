@@ -6,25 +6,30 @@ using YogurtTheHorse.Messenger.Database;
 using NLog;
 
 namespace YogurtTheHorse.Messenger.MenuControl {
-	public class MenuController<TUserData> where TUserData : class, IUserData {
+	public class MenuController {
 		private static Logger _logger = LogManager.GetLogger("MenuControllger");
 
-		private IDatabaseDriver<TUserData> _database => Messenger.Database;
+		private IDatabaseDriver _database => Messenger.Database;
 		private ConcurrentDictionary<string, IUserMenu> _menus;
 
-		public IMessenger<TUserData> Messenger { get; }
+		private Func<string, UserData> _generateUserData;
+
+		public IMessenger Messenger { get; }
 
 
-		public MenuController(IMessenger<TUserData> messenger) {
+		public MenuController(IMessenger messenger) : this(messenger, (s) => new UserData(s)) { }
+
+		public MenuController(IMessenger messenger, Func<string, UserData> generateUserData) {
+			_generateUserData = generateUserData;
 			Messenger = messenger;
 
 			_menus = new ConcurrentDictionary<string, IUserMenu>();
-			
+
 			Messenger.OnIncomingMessage += OnMessage;
 		}
 
 
-		public void OpenMenu(User user, IUserData userData, string menuName) {
+		public void OpenMenu(User user, UserData userData, string menuName) {
 			if (!_menus.ContainsKey(menuName)) {
 				_logger.Error($"Tried to open unexisting menu: {menuName}");
 				return;
@@ -33,7 +38,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			_menus[menuName].Open(user, userData, this);
 		}
 
-		public void Back(User user, IUserData userData) {
+		public void Back(User user, UserData userData) {
 			if (userData.MenuStack.Count <= 1) {
 				throw new InvalidOperationException("No menus to back");
 			}
@@ -45,7 +50,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			if (_menus.ContainsKey(menu.MenuName)) {
 				throw new ArgumentException($"{menu.MenuName} already registered");
 			}
-			
+
 			_database.RegisterUserMenuClass<TUserMenu>();
 			_menus[menu.MenuName] = menu;
 		}
@@ -57,10 +62,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 		}
 
 		public void OnMessage(Message message) {
-			TUserData userData = _database.GetUserData(message.Recipient.UserID);
-			if (userData is null) {
-				userData = (TUserData)Activator.CreateInstance(typeof(TUserData), message.Recipient.UserID);
-			}
+			UserData userData = _database.GetUserData(message.Recipient.UserID) ?? _generateUserData(message.Recipient.UserID);
 
 			string menuName = userData.MenuStack.Peek();
 

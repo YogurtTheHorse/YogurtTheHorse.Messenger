@@ -7,6 +7,7 @@ namespace YogurtTheHorse.Messenger.Database {
 		void Connect(string url);
 
 		void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu;
+		void RegisterUserDataClass<TUserData>() where TUserData : UserData;
 
 		Task<User> GetUserAsync(string id);
 		Task<bool> SaveUserAsync(User usr);
@@ -14,14 +15,12 @@ namespace YogurtTheHorse.Messenger.Database {
 		User GetUser(string id);
 		bool SaveUser(User usr);
 
+		Task<UserData> GetUserDataAsync(string id);
+		Task SaveUserDataAsync(UserData userData);
+
+		UserData GetUserData(string id);
+		void SaveUserData(UserData userData);
+
 		Task<ImageInfo> TryGetImageAsync(string imageId);
-	}
-
-	public interface IDatabaseDriver<TUserData> : IDatabaseDriver where TUserData : IUserData {
-		Task<TUserData> GetUserDataAsync(string id);
-		Task SaveUserDataAsync(TUserData userData);
-
-		TUserData GetUserData(string id);
-		void SaveUserData(TUserData userData);
 	}
 }

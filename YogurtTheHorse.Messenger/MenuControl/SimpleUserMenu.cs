@@ -4,34 +4,27 @@ using System.Reflection;
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
 
 namespace YogurtTheHorse.Messenger.MenuControl {
-	public abstract class SimpleUserMenu<TUserData> : IUserMenu where TUserData : class, IUserData {
-		protected MenuController<TUserData> _menuController;
+	public abstract class SimpleUserMenu : IUserMenu {
+		protected MenuController _menuController;
 		protected virtual ButtonLayout Layout { get; set; }
 
 		protected abstract string StartMessage { get; }
 
 		public virtual string MenuName => GetType().Name;
 
-		public SimpleUserMenu(MenuController<TUserData> menuController) {
+		public SimpleUserMenu(MenuController menuController) {
 			_menuController = menuController;
 		}
 
-		public virtual void Open(User user, IUserData userData, object sender) {
+		public virtual void Open(User user, UserData userData, object sender) {
 			user.SendMessage(StartMessage, Layout);
 		}
 
-		public void OnMessage(Message message, IUserData userData) {
-			OnMessage(message, (TUserData)userData);
-		}
-
-		public void OnUnusualMessage(Message message, IUserData userData) {
-			OnUnusualMessage(message, (TUserData)userData);
-		}
-		public virtual void OnUnusualMessage(Message message, TUserData userData) {
+		public virtual void OnUnusualMessage(Message message, UserData userData) {
 			Open(message.Recipient, userData, _menuController);
 		}
 
-		public virtual void OnMessage(Message message, TUserData userData) {
+		public virtual void OnMessage(Message message, UserData userData) {
 			if (Layout.LayoutType != EButtonType.Usual) { return; }
 
 			ButtonInfo bi = Layout.GetAllButtons().FirstOrDefault(b => b.Text == message.Text);
@@ -39,7 +32,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			if (bi is null) {
 				OnUnusualMessage(message, userData);
 			} else {
-				bi.Action(this, new ButtonActionEventArgs<TUserData>() {
+				bi.Action(this, new ButtonActionEventArgs() {
 					ButtonClickType = EButtonType.Usual,
 					Data = bi.Data,
 					MenuController = _menuController,
@@ -49,19 +42,12 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			}
 		}
 
-		public virtual void Close(User user, IUserData userData, object sender) { }
+		public virtual void Close(User user, UserData userData, object sender) { }
 
-		public NavigationButtonInfo GetNavifationButton(string text) {
-			return new NavigationButtonInfo(text, MenuName);
-		}
+		public void Back(User user, UserData userData) => _menuController.Back(user, userData);
 
-		public CallbackButtonInfo<TUserData> GetBackButton(string text="{Back}") {
-			return CallbackButtonInfo<TUserData>.BackButton(text, _menuController);
-		}
-
-		public static NavigationButtonInfo Navigate(string text) {
-			string className = new StackTrace(false).GetFrame(1).GetMethod().DeclaringType.Name.ToString();
-			return new NavigationButtonInfo(text, className);
+		public ButtonInfoBuilder GetNavigationButton() {
+			return new ButtonInfoBuilder().NavigateTo(MenuName);
 		}
 	}
 }
