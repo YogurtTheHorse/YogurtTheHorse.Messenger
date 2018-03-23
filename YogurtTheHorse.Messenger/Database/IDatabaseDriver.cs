@@ -2,25 +2,26 @@
 using YogurtTheHorse.Messenger.MenuControl;
 
 namespace YogurtTheHorse.Messenger.Database {
-    public interface IDatabaseDriver {
-        void Connect();
-        void Connect(string url);
+	public interface IDatabaseDriver {
+		void Connect();
+		void Connect(string url);
 
-        void RegisterUserDataType<TUserData>() where TUserData : IUserData;
-        void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu;
+		void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu;
 
-        Task<User> GetUserAsync(string id);
-        Task<bool> SaveUserAsync(User usr);
+		Task<User> GetUserAsync(string id);
+		Task<bool> SaveUserAsync(User usr);
 
-        User GetUser(string id);
-        bool SaveUser(User usr);
+		User GetUser(string id);
+		bool SaveUser(User usr);
 
-        Task<IUserData> GetUserDataAsync(string id);
-        Task SaveUserDataAsync(IUserData userData);
+		Task<ImageInfo> TryGetImageAsync(string imageId);
+	}
 
-        IUserData GetUserData(string id);
-        void SaveUserData(IUserData userData);
+	public interface IDatabaseDriver<TUserData> : IDatabaseDriver where TUserData : IUserData {
+		Task<TUserData> GetUserDataAsync(string id);
+		Task SaveUserDataAsync(TUserData userData);
 
-        Task<ImageInfo> TryGetImageAsync(string imageId);
-    }
+		TUserData GetUserData(string id);
+		void SaveUserData(TUserData userData);
+	}
 }

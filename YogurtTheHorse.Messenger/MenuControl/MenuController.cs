@@ -9,18 +9,17 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 	public class MenuController<TUserData> where TUserData : class, IUserData {
 		private static Logger _logger = LogManager.GetLogger("MenuControllger");
 
-		private IDatabaseDriver _database => Messenger.Database;
+		private IDatabaseDriver<TUserData> _database => Messenger.Database;
 		private ConcurrentDictionary<string, IUserMenu> _menus;
 
-		public IMessenger Messenger { get; }
+		public IMessenger<TUserData> Messenger { get; }
 
 
-		public MenuController(IMessenger messenger) {
+		public MenuController(IMessenger<TUserData> messenger) {
 			Messenger = messenger;
 
 			_menus = new ConcurrentDictionary<string, IUserMenu>();
-
-			_database.RegisterUserDataType<TUserData>();
+			
 			Messenger.OnIncomingMessage += OnMessage;
 		}
 
@@ -38,8 +37,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			if (_menus.ContainsKey(menu.MenuName)) {
 				throw new ArgumentException($"{menu.MenuName} already registered");
 			}
-
-
+			
 			_database.RegisterUserMenuClass<TUserMenu>();
 			_menus[menu.MenuName] = menu;
 		}
@@ -51,7 +49,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 		}
 
 		public void OnMessage(Message message) {
-			TUserData userData = (TUserData)_database.GetUserData(message.Recipient.UserID);
+			TUserData userData = _database.GetUserData(message.Recipient.UserID);
 			if (userData is null) {
 				userData = (TUserData)Activator.CreateInstance(typeof(TUserData), message.Recipient.UserID);
 			}

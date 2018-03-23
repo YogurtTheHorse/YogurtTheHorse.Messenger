@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using YogurtTheHorse.Messenger.MenuControl;
 
 namespace YogurtTheHorse.Messenger.Database.Mongo {
-	public class MongoDriver<TUserData> : IDatabaseDriver where TUserData : IUserData {
+	public class MongoDriver<TUserData> : IDatabaseDriver<TUserData> where TUserData : IUserData {
 		private IMongoDatabase _database;
 		private IMongoCollection<User> _usersCollection;
 		private IMongoCollection<TUserData> _usersDataCollection;
@@ -31,7 +31,6 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 			_database = mongo.GetDatabase(DatabaseName);
 			_usersCollection = _database.GetCollection<User>("users");
 
-
 			BsonClassMap.RegisterClassMap<TUserData>(cm => cm.AutoMap());
 
 			_usersDataCollection = _database.GetCollection<TUserData>("users_data");
@@ -53,22 +52,16 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 			throw new NotImplementedException();
 		}
 
-		public async Task<IUserData> GetUserDataAsync(string id) {
+		public async Task<TUserData> GetUserDataAsync(string id) {
 			FilterDefinition<TUserData> filter = $"{{ UserID: {id}}}";
 			var results = await _usersDataCollection.Find(filter).Limit(1).ToListAsync();
 
 			return results.FirstOrDefault();
 		}
 
-		public async Task SaveUserDataAsync(IUserData userData) {
+		public async Task SaveUserDataAsync(TUserData userData) {
 			FilterDefinition<TUserData> filter = $"{{ ID: {userData.UserID}}}";
-			await _usersDataCollection.ReplaceOneAsync(filter, (TUserData)userData, new UpdateOptions { IsUpsert = true });
-		}
-
-		public void RegisterUserDataType<T>() where T : IUserData {
-			if (typeof(T) != typeof(TUserData)) {
-				throw new InvalidOperationException("User data type is already registered");
-			}
+			await _usersDataCollection.ReplaceOneAsync(filter, userData, new UpdateOptions { IsUpsert = true });
 		}
 
 		public void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu {
@@ -87,11 +80,11 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 			return task.Result;
 		}
 
-		public IUserData GetUserData(string id) {
+		public TUserData GetUserData(string id) {
 			return GetUserDataAsync(id).GetAwaiter().GetResult();
 		}
 
-		public void SaveUserData(IUserData userData) {
+		public void SaveUserData(TUserData userData) {
 			SaveUserDataAsync(userData).RunSynchronously();
 		}
 	}
