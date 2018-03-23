@@ -44,6 +44,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			}
 
 			_menus[userData.MenuStack.Pop()].Close(user, userData, this);
+			_menus[userData.MenuStack.Peek()].Open(user, userData, this);
 		}
 
 		public void RegisterMenuInstance<TUserMenu>(TUserMenu menu) where TUserMenu : IUserMenu {
