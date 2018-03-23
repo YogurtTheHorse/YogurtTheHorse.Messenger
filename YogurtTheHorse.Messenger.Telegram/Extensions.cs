@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.ReplyMarkups;
+using YogurtTheHorse.Messenger.MenuControl;
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
 
 namespace YogurtTheHorse.Messenger.Telegram {

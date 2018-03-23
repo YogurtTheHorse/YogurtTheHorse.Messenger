@@ -3,10 +3,15 @@
 namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 	public class ButtonInfo {
 		public virtual EButtonType ButtonType { get; set; }
-		public string Text { get; set; }
-		public string Data { get; set; }
+		public string Text { get; protected internal set; }
+		public string Data { get; protected internal set; }
 
-		public virtual bool Hide => false;
+		public Func<User, UserData, bool> HideCondition { get; protected internal set; }
+
+		public ButtonInfo() {
+			ButtonType = EButtonType.Usual;
+			HideCondition = (u, ud) => false;
+		}
 
 		public virtual void Action(object sender, ButtonActionEventArgs e) { }
 	}

@@ -8,6 +8,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 		protected string _text;
 		protected string _data;
 		protected Action<object, ButtonActionEventArgs> _callback;
+		protected Func<User, UserData, bool> _condition = (u, ud) => false;
 
 		public ButtonInfoBuilder Text(string text) {
 			_text = text ?? throw new ArgumentNullException(nameof(text));
@@ -25,6 +26,14 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 
 			return this;
 		}
+
+		public ButtonInfoBuilder HideCondition(Func<User, UserData, bool> condition) {
+			_condition = condition;
+
+			return this;
+		}
+
+
 		public ButtonInfoBuilder Callback(Action<object, ButtonActionEventArgs> callback) {
 			_callback = callback;
 
@@ -59,6 +68,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 			buttonInfo.Data = _data;
 			buttonInfo.Text = _text ?? throw new ArgumentNullException(nameof(_text));
 			buttonInfo.ButtonType = _buttonType;
+			buttonInfo.HideCondition = _condition;
 
 			return buttonInfo;
 		}

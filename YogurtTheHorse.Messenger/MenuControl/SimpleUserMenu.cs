@@ -17,7 +17,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 		}
 
 		public virtual void Open(User user, UserData userData, object sender) {
-			user.SendMessage(StartMessage, Layout);
+			user.SendMessage(StartMessage, Layout.GetButtons(user, userData));
 		}
 
 		public virtual void OnUnusualMessage(Message message, UserData userData) {

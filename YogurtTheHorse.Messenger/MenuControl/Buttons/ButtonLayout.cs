@@ -96,6 +96,22 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 
 			return buttons;
 		}
+
+		public ButtonInfo[][] GetButtons(User user, UserData userData) {
+			var selectedRows = Buttons.Where(row => row.Any(bi => !bi.HideCondition(user, userData))).ToList();
+			ButtonInfo[][] buttons = new ButtonInfo[selectedRows.Count][];
+
+			for (int i = 0; i < selectedRows.Count; i++) {
+				var selectedButtons = selectedRows[i].Where(b => !b.HideCondition(user, userData)).ToList();
+				buttons[i] = new ButtonInfo[selectedButtons.Count];
+
+				for (int j = 0; j < selectedButtons.Count; j++) {
+					buttons[i][j] = selectedButtons[j];
+				}
+			}
+
+			return buttons;
+		}
 		#endregion
 	}
 }
