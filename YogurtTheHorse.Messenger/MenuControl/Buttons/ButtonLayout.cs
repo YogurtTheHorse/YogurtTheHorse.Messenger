@@ -53,7 +53,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 		private void CheckButtonsType() { }
 
 		#region Enumerators
-		public IEnumerable<ButtonInfo> GetButtons() {
+		public IEnumerable<ButtonInfo> GetAllButtons() {
             foreach (var lb in Buttons) {
                 foreach (var bi in lb) {
                     yield return bi;
@@ -61,13 +61,27 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
             }
         }
 
-        public IEnumerable<ButtonInfo> GetUsualButtons() {
-            foreach (var btn in GetButtons()) {
+        public IEnumerable<ButtonInfo> GetAllUsualButtons() {
+            foreach (var btn in GetAllButtons()) {
 				if (btn.ButtonType == EButtonType.Usual) {
 					yield return btn;
 				}
             }
         }
+
+		public ButtonInfo[][] GetButtons() {
+			ButtonInfo[][] buttons = new ButtonInfo[Buttons.Count][];
+			
+			for (int i = 0; i < Buttons.Count; i++) {
+				buttons[i] = new ButtonInfo[Buttons[i].Count];
+
+				for (int j = 0; j < Buttons[i].Count; j++) {
+					buttons[i][j] = Buttons[i][j];
+				}
+			}
+
+			return buttons;
+		}
 		#endregion
 	}
 }

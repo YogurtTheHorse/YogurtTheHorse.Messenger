@@ -32,7 +32,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 		public virtual void OnMessage(Message message, TUserData userData) {
             if (Layout.LayoutType != EButtonType.Usual) { return; }
 
-            ButtonInfo bi = Layout.GetButtons().FirstOrDefault(b => b.Text == message.Text);
+            ButtonInfo bi = Layout.GetAllButtons().FirstOrDefault(b => b.Text == message.Text);
 
 			if (bi is null) {
 				OnUnusualMessage(message, userData);
