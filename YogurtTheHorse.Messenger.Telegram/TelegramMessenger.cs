@@ -27,7 +27,9 @@ namespace YogurtTheHorse.Messenger.Telegram {
 
 		public async Task<User> GetUserAsync(string id) {
 			User user = await Database.GetUserAsync(id);
-			user.Messenger = this;
+			if (!(user is null)) {
+				user.Messenger = this;
+			}
 
 			return user;
 		}
@@ -37,6 +39,8 @@ namespace YogurtTheHorse.Messenger.Telegram {
 			User usr = await GetUserAsync(id) ?? new User(this, id);
 
 			if (tlgrmUser.UpdateUser(usr)) { await usr.Save(); }
+			usr.Messenger = this;
+
 
 			return usr;
 		}

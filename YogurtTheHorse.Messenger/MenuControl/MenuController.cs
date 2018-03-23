@@ -56,6 +56,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 
 			if (_menus.ContainsKey(userData.MenuName)) {
 				_menus[userData.MenuName].OnMessage(message, userData);
+				_database.SaveUserData(userData);
 			} else {
 				throw new InvalidOperationException($"No such menu registered: {userData.MenuName}");
 			}

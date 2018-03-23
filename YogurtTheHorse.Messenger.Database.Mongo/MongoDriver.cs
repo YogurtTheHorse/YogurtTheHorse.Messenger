@@ -18,12 +18,13 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 			
 			BsonClassMap.RegisterClassMap<User>(cm => {
 				cm.AutoMap();
-				cm.MapProperty(c => c.UserID);
+				cm.SetIdMember(cm.GetMemberMap(c => c.UserID));
 				cm.UnmapMember(c => c.Messenger);
 			});
 
 			BsonClassMap.RegisterClassMap<TUserData>(cm => {
 				cm.AutoMap();
+				cm.SetIdMember(cm.GetMemberMap(c => c.UserID));
 				cm.MapProperty(c => c.UserID);
 			});
 		}
@@ -42,13 +43,11 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 		}
 
 		public async Task<User> GetUserAsync(string id) {
-			FilterDefinition<User> filter = $"{{ UserId: {id} }}";
-			return (await _usersCollection.Find(filter).Limit(1).ToListAsync()).FirstOrDefault();
+			return (await _usersCollection.Find(GetUserFilter(id)).Limit(1).ToListAsync()).FirstOrDefault();
 		}
 
 		public async Task<bool> SaveUserAsync(User usr) {
-			FilterDefinition<User> filter = $"{{ UserId: {usr.UserID} }}";
-			var result = await _usersCollection.ReplaceOneAsync(filter, usr, new UpdateOptions { IsUpsert = true });
+			var result = await _usersCollection.ReplaceOneAsync(GetUserFilter(usr.UserID), usr, new UpdateOptions { IsUpsert = true });
 
 			return result.MatchedCount > 0;
 		}
@@ -58,15 +57,13 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 		}
 
 		public async Task<TUserData> GetUserDataAsync(string id) {
-			FilterDefinition<TUserData> filter = $"{{ UserID: {id}}}";
-			var results = await _usersDataCollection.Find(filter).Limit(1).ToListAsync();
+			var results = await _usersDataCollection.Find(GetUserDataFilter(id)).Limit(1).ToListAsync();
 
 			return results.FirstOrDefault();
 		}
 
 		public async Task SaveUserDataAsync(TUserData userData) {
-			FilterDefinition<TUserData> filter = $"{{ UserID: {userData.UserID}}}";
-			await _usersDataCollection.ReplaceOneAsync(filter, userData, new UpdateOptions { IsUpsert = true });
+			await _usersDataCollection.ReplaceOneAsync(GetUserDataFilter(userData.UserID), userData, new UpdateOptions { IsUpsert = true });
 		}
 
 		public void RegisterUserMenuClass<TUserMenu>() where TUserMenu : IUserMenu {
@@ -90,7 +87,15 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 		}
 
 		public void SaveUserData(TUserData userData) {
-			SaveUserDataAsync(userData).RunSynchronously();
+			AsyncHelpers.RunSync(() => SaveUserDataAsync(userData));
+		}
+
+		private FilterDefinition<TUserData> GetUserDataFilter(string id) {
+			return Builders<TUserData>.Filter.Eq(u => u.UserID, id);
+		}
+
+		private FilterDefinition<User> GetUserFilter(string id) {
+			return Builders<User>.Filter.Eq(u => u.UserID, id);
 		}
 	}
 }
