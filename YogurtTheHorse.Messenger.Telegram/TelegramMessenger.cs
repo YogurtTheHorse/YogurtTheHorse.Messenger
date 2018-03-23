@@ -26,7 +26,10 @@ namespace YogurtTheHorse.Messenger.Telegram {
 		}
 
 		public async Task<User> GetUserAsync(string id) {
-			return await Database.GetUserAsync(id);
+			User user = await Database.GetUserAsync(id);
+			user.Messenger = this;
+
+			return user;
 		}
 
 		private async Task<User> GetUserAsync(global::Telegram.Bot.Types.User tlgrmUser) {

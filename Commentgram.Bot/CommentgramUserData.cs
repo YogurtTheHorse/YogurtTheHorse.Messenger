@@ -3,7 +3,7 @@ using YogurtTheHorse.Messenger.MenuControl;
 
 namespace Commentgram.Bot {
 	public class CommentgramUserData : IUserData {
-		public string UserID { get; }
+		public string UserID { get; set; }
 		public string MenuName { get; set; }
         public string Locale { get; set; }
 

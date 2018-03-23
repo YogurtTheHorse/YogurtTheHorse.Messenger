@@ -15,9 +15,16 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 
 		public MongoDriver(string databaseName) {
 			DatabaseName = databaseName;
-
+			
 			BsonClassMap.RegisterClassMap<User>(cm => {
 				cm.AutoMap();
+				cm.MapProperty(c => c.UserID);
+				cm.UnmapMember(c => c.Messenger);
+			});
+
+			BsonClassMap.RegisterClassMap<TUserData>(cm => {
+				cm.AutoMap();
+				cm.MapProperty(c => c.UserID);
 			});
 		}
 
@@ -30,8 +37,6 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 
 			_database = mongo.GetDatabase(DatabaseName);
 			_usersCollection = _database.GetCollection<User>("users");
-
-			BsonClassMap.RegisterClassMap<TUserData>(cm => cm.AutoMap());
 
 			_usersDataCollection = _database.GetCollection<TUserData>("users_data");
 		}
@@ -60,7 +65,7 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 		}
 
 		public async Task SaveUserDataAsync(TUserData userData) {
-			FilterDefinition<TUserData> filter = $"{{ ID: {userData.UserID}}}";
+			FilterDefinition<TUserData> filter = $"{{ UserID: {userData.UserID}}}";
 			await _usersDataCollection.ReplaceOneAsync(filter, userData, new UpdateOptions { IsUpsert = true });
 		}
 

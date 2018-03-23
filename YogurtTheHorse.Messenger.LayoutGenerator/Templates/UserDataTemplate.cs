@@ -20,7 +20,7 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+    #line 1 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class UserDataTemplate : UserDataTemplateBase
     {
@@ -31,50 +31,50 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Templates
         public virtual string TransformText()
         {
             
-            #line 9 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 9 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generator.GetUserDataNamespacesString()));
             
             #line default
             #line hidden
             this.Write("\r\nusing YogurtTheHorse.Messenger.MenuControl;\r\n\r\nnamespace ");
             
-            #line 12 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 12 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generator.DefaultNamespace));
             
             #line default
             #line hidden
             this.Write(" {\r\n\tpublic class ");
             
-            #line 13 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 13 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generator.UserDataTypeName));
             
             #line default
             #line hidden
-            this.Write(" : IUserData {\r\n\t\tpublic string UserID { get; private set; }\r\n\t\tpublic string Men" +
-                    "uName { get; set; }\r\n        public string Locale { get; set; }\r\n\r\n");
+            this.Write(" : IUserData {\r\n\t\tpublic string UserID { get; set; }\r\n\t\tpublic string MenuName { " +
+                    "get; set; }\r\n        public string Locale { get; set; }\r\n\r\n");
             
-            #line 18 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 18 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
  foreach (VariableDescription vd in generator.GetUserVariablesDescriptions()) { 
             
             #line default
             #line hidden
             this.Write("\t\tpublic ");
             
-            #line 19 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 19 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(vd.VariableType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 19 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 19 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(vd.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 20 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+            #line 20 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
  }
             
             #line default
@@ -83,7 +83,7 @@ namespace YogurtTheHorse.Messenger.LayoutGenerator.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Dev\TelegramBots\Commentgram\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
+        #line 1 "D:\Dev\TelegramBots\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.LayoutGenerator\Templates\UserDataTemplate.tt"
 
 private global::YogurtTheHorse.Messenger.LayoutGenerator.Generator _generatorField;
 

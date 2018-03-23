@@ -11,7 +11,7 @@ using YogurtTheHorse.Messenger.MenuControl;
 
 namespace <#= generator.DefaultNamespace #> {
 	public class <#= generator.UserDataTypeName #> : IUserData {
-		public string UserID { get; private set; }
+		public string UserID { get; set; }
 		public string MenuName { get; set; }
         public string Locale { get; set; }
 

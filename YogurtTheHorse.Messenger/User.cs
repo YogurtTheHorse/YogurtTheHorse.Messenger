@@ -2,38 +2,41 @@
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
 
 namespace YogurtTheHorse.Messenger {
-    public class User {
-        protected IMessenger _messenger;
+	public sealed class User {
+		public IMessenger Messenger { get; set; }
 
-        public string PlatformName => _messenger.PlatformName;
+		public string PlatformName => Messenger.PlatformName;
 
-        public string UserID { get; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Username { get; set; }
-        public string LanguageCode { get; set; }
+		public string UserID { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string Username { get; set; }
+		public string LanguageCode { get; set; }
 
-        public User(IMessenger messenger, string id) {
-            _messenger = messenger;
-            UserID = id;
-        }
+		public User(string id) {
+			UserID = id;
+		}
 
-        public async Task<bool> Save() {
-            return await _messenger.SaveUserAsync(this);
-        }
+		public User(IMessenger messenger, string id) : this(id) {
+			Messenger = messenger;
+		}
 
-        public void SendMessage(string text, ButtonLayout layout) {
+		public async Task<bool> Save() {
+			return await Messenger.SaveUserAsync(this);
+		}
+
+		public void SendMessage(string text, ButtonLayout layout) {
 			AsyncHelpers.RunSync(() => SendMessageAsync(text, layout));
-        }
+		}
 
-        public async Task SendMessageAsync(string text, ButtonLayout layout) {
+		public async Task SendMessageAsync(string text, ButtonLayout layout) {
 			Message message = new Message() {
 				Text = text,
 				Recipient = this,
 				Layout = layout
 			};
 
-			await _messenger.SendMessageAsync(message);
-        }
-    }
+			await Messenger.SendMessageAsync(message);
+		}
+	}
 }
