@@ -55,6 +55,10 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			return new NavigationButtonInfo(text, MenuName);
 		}
 
+		public CallbackButtonInfo<TUserData> GetBackButton(string text="{Back}") {
+			return CallbackButtonInfo<TUserData>.BackButton(text, _menuController);
+		}
+
 		public static NavigationButtonInfo Navigate(string text) {
 			string className = new StackTrace(false).GetFrame(1).GetMethod().DeclaringType.Name.ToString();
 			return new NavigationButtonInfo(text, className);

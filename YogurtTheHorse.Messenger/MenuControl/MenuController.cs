@@ -29,8 +29,16 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 				_logger.Error($"Tried to open unexisting menu: {menuName}");
 				return;
 			}
-			userData.MenuName = menuName;
+			userData.MenuStack.Push(menuName);
 			_menus[menuName].Open(user, userData, this);
+		}
+
+		public void Back(User user, IUserData userData) {
+			if (userData.MenuStack.Count <= 1) {
+				throw new InvalidOperationException("No menus to back");
+			}
+
+			_menus[userData.MenuStack.Pop()].Close(user, userData, this);
 		}
 
 		public void RegisterMenuInstance<TUserMenu>(TUserMenu menu) where TUserMenu : IUserMenu {
@@ -54,11 +62,13 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 				userData = (TUserData)Activator.CreateInstance(typeof(TUserData), message.Recipient.UserID);
 			}
 
-			if (_menus.ContainsKey(userData.MenuName)) {
-				_menus[userData.MenuName].OnMessage(message, userData);
+			string menuName = userData.MenuStack.Peek();
+
+			if (_menus.ContainsKey(menuName)) {
+				_menus[menuName].OnMessage(message, userData);
 				_database.SaveUserData(userData);
 			} else {
-				throw new InvalidOperationException($"No such menu registered: {userData.MenuName}");
+				throw new InvalidOperationException($"No such menu registered: {menuName}");
 			}
 		}
 	}

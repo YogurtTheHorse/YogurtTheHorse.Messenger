@@ -14,5 +14,9 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 		public override void Action<T>(object sender, ButtonActionEventArgs<T> e) {
 			_callback(sender, e as ButtonActionEventArgs<TUserData>);
 		}
+
+		public static CallbackButtonInfo<TUserData> BackButton(string text, MenuController<TUserData> controller) {
+			return new CallbackButtonInfo<TUserData>(text, (s, e) => controller.Back(e.User, e.UserData));
+		}
 	}
 }
