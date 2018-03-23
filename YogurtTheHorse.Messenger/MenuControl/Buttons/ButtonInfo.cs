@@ -19,7 +19,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 
     public class ButtonActionEventArgs<TUserData> : EventArgs where TUserData : class, IUserData {
         public User User { get; set; }
-        public IUserData UserData { get; set; }
+        public TUserData UserData { get; set; }
         public MenuController<TUserData> MenuController { get; set; }
 
         public EButtonType ButtonClickType { get; set; }
