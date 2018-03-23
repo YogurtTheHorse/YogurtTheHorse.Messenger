@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
-    public class ButtonLayout : IEnumerable<List<ButtonInfo>> {
+    public class ButtonLayout {
         protected List<List<ButtonInfo>> Buttons;
 
         public virtual EButtonType LayoutType { get; }
@@ -24,7 +24,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 			LayoutType = layoutType;
         }
 
-        public ButtonLayout(IEnumerable<ButtonInfo> buttons, bool isVertical, bool resizeKeyboard, bool oneTimeKeyboard) :
+        public ButtonLayout(ICollection<ButtonInfo> buttons, bool isVertical, bool resizeKeyboard, bool oneTimeKeyboard) :
             this(resizeKeyboard, oneTimeKeyboard) {
 
             if (isVertical) {
@@ -40,24 +40,13 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
             CheckButtonsType();
         }
 
-        public ButtonLayout(List<List<ButtonInfo>> buttons) : this(buttons, false, false) { }
+        public ButtonLayout(ICollection<ICollection<ButtonInfo>> buttons) : this(buttons, false, false) { }
 
-        public ButtonLayout(List<List<ButtonInfo>> buttons, bool resizeKeyboard, bool oneTimeKeyboard) : this(resizeKeyboard, oneTimeKeyboard) {
-            Buttons = buttons;
+        public ButtonLayout(ICollection<ICollection<ButtonInfo>> buttons, bool resizeKeyboard, bool oneTimeKeyboard) : this(resizeKeyboard, oneTimeKeyboard) {
+            Buttons = new List<List<ButtonInfo>>();
+			Buttons.AddRange(buttons.Select(row => new List<ButtonInfo>(row)));
 
             CheckButtonsType();
-		}
-
-		public static implicit operator ButtonLayout(ButtonInfo[] btns) {
-			var buttons = new List<List<ButtonInfo>> {
-				btns.ToList()
-			};
-
-			return new ButtonLayout(buttons);
-		}
-
-		public static implicit operator ButtonLayout(ButtonInfo[,] btns) {
-			return new ButtonLayout(btns.ToList());
 		}
 		#endregion
 
@@ -73,17 +62,11 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
         }
 
         public IEnumerable<ButtonInfo> GetUsualButtons() {
-            foreach (var btn in GetButtons().Where(btn => btn.ButtonType == EButtonType.Usual)) {
-                yield return btn;
+            foreach (var btn in GetButtons()) {
+				if (btn.ButtonType == EButtonType.Usual) {
+					yield return btn;
+				}
             }
-        }
-
-        public IEnumerator<List<ButtonInfo>> GetEnumerator() {
-            return Buttons.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return Buttons.GetEnumerator();
         }
 		#endregion
 	}
