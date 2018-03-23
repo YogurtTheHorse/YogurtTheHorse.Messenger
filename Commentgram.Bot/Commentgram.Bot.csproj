@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="InstaSharp" Version="2.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YogurtTheHorse.Messenger.Database.Mongo\YogurtTheHorse.Messenger.Database.Mongo.csproj" />
     <ProjectReference Include="..\YogurtTheHorse.Messenger.Telegram\YogurtTheHorse.Messenger.Telegram.csproj" />
     <ProjectReference Include="..\YogurtTheHorse.Messenger\YogurtTheHorse.Messenger.csproj" />

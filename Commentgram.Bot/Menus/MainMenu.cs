@@ -6,16 +6,13 @@ using YogurtTheHorse.Messenger.MenuControl;
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
 
 namespace Commentgram.Bot.Menus {
-    public class MainMenu : SimpleUserMenu<CommentgramUserData> {
-        protected override string StartMessage => "{MainMenu.StartMessage}";
-        protected override ButtonLayout Layout { get; }
+	public class MainMenu : SimpleUserMenu {
+		protected override string StartMessage => "{MainMenu.StartMessage}";
 
-        public override string MenuName => "MainMenu";
+		public override string MenuName => "MainMenu";
 
-        public MainMenu(MenuController<CommentgramUserData> menuController) : base(menuController) {
-            Layout = new MainMenuLayout();
-        }
-
-
-    }
+		public MainMenu(MenuController menuController) : base(menuController) {
+			Layout = new MainMenuLayout();
+		}
+	}
 }
