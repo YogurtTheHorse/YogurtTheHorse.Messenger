@@ -4,6 +4,7 @@ using NLog;
 
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 using YogurtTheHorse.Messenger.Database;
 
 namespace YogurtTheHorse.Messenger.Telegram {
@@ -69,13 +70,16 @@ namespace YogurtTheHorse.Messenger.Telegram {
 
         public async Task SendMessageAsync(Message message) {
             ChatId chatId = new ChatId(message.Recipient.UserID);
-            switch (message.MessageType) {
+			IReplyMarkup replyMarkup = message.Layout.ToReplyMarkup();
+
+
+			switch (message.MessageType) {
                 case MessageType.Text:
-                    await _telegramBotClient.SendTextMessageAsync(chatId, message.Text);
+                    await _telegramBotClient.SendTextMessageAsync(chatId, message.Text, replyMarkup: replyMarkup);
                     break;
 
                 case MessageType.Image:
-                    await _telegramBotClient.SendPhotoAsync(chatId, Extensions.ImageToFileToSend(message.ImageInfo));
+                    await _telegramBotClient.SendPhotoAsync(chatId, Extensions.ImageToFileToSend(message.ImageInfo), replyMarkup: replyMarkup);
                     break;
 
                 case MessageType.Other:
