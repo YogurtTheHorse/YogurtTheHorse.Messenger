@@ -51,6 +51,10 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 
 		public virtual void Close(User user, IUserData userData, object sender) { }
 
+		public NavigationButtonInfo GetNavifationButton(string text) {
+			return new NavigationButtonInfo(text, MenuName);
+		}
+
 		public static NavigationButtonInfo Navigate(string text) {
 			string className = new StackTrace(false).GetFrame(1).GetMethod().DeclaringType.Name.ToString();
 			return new NavigationButtonInfo(text, className);
