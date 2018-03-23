@@ -96,12 +96,4 @@ namespace YogurtTheHorse.Messenger.Telegram {
 			}
 		}
 	}
-
-	public class TelegramMessenger<TUserData> : TelegramMessenger, IMessenger<TUserData> where TUserData : IUserData {
-		public new IDatabaseDriver<TUserData> Database { get; }
-
-		public TelegramMessenger(string token, IDatabaseDriver<TUserData> database) : base(token, database) {
-			Database = database;
-		}
-	}
 }

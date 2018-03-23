@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using YogurtTheHorse.Messenger.MenuControl;
 
 namespace YogurtTheHorse.Messenger.Database.Mongo {
-	public class MongoDriver<TUserData> : IDatabaseDriver<TUserData> where TUserData : IUserData {
+	public class MongoDriver : IDatabaseDriver {
 		private IMongoDatabase _database;
 		private IMongoCollection<User> _usersCollection;
-		private IMongoCollection<TUserData> _usersDataCollection;
+		private IMongoCollection<UserData> _usersDataCollection;
 
 		public string DatabaseName { get; protected set; }
 
@@ -22,10 +22,16 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 				cm.UnmapMember(c => c.Messenger);
 			});
 
+			BsonClassMap.RegisterClassMap<UserData>(cm => {
+				cm.AutoMap();
+				cm.SetIgnoreExtraElements(true);
+			});
+		}
+
+		public void RegisterUserDataClass<TUserData>() where TUserData : UserData {
 			BsonClassMap.RegisterClassMap<TUserData>(cm => {
 				cm.AutoMap();
-				cm.SetIdMember(cm.GetMemberMap(c => c.UserID));
-				cm.MapProperty(c => c.UserID);
+				cm.SetIgnoreExtraElements(true);
 			});
 		}
 
@@ -39,7 +45,7 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 			_database = mongo.GetDatabase(DatabaseName);
 			_usersCollection = _database.GetCollection<User>("users");
 
-			_usersDataCollection = _database.GetCollection<TUserData>("users_data");
+			_usersDataCollection = _database.GetCollection<UserData>("users_data");
 		}
 
 		public async Task<User> GetUserAsync(string id) {
@@ -56,13 +62,13 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 			throw new NotImplementedException();
 		}
 
-		public async Task<TUserData> GetUserDataAsync(string id) {
+		public async Task<UserData> GetUserDataAsync(string id) {
 			var results = await _usersDataCollection.Find(GetUserDataFilter(id)).Limit(1).ToListAsync();
 
 			return results.FirstOrDefault();
 		}
 
-		public async Task SaveUserDataAsync(TUserData userData) {
+		public async Task SaveUserDataAsync(UserData userData) {
 			await _usersDataCollection.ReplaceOneAsync(GetUserDataFilter(userData.UserID), userData, new UpdateOptions { IsUpsert = true });
 		}
 
@@ -82,16 +88,16 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 			return task.Result;
 		}
 
-		public TUserData GetUserData(string id) {
+		public UserData GetUserData(string id) {
 			return GetUserDataAsync(id).GetAwaiter().GetResult();
 		}
 
-		public void SaveUserData(TUserData userData) {
+		public void SaveUserData(UserData userData) {
 			AsyncHelpers.RunSync(() => SaveUserDataAsync(userData));
 		}
 
-		private FilterDefinition<TUserData> GetUserDataFilter(string id) {
-			return Builders<TUserData>.Filter.Eq(u => u.UserID, id);
+		private FilterDefinition<UserData> GetUserDataFilter(string id) {
+			return Builders<UserData>.Filter.Eq(u => u.UserID, id);
 		}
 
 		private FilterDefinition<User> GetUserFilter(string id) {
