@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="InstaSharp" Version="2.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
