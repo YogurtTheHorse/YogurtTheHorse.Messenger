@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace YogurtTheHorse.Messenger.MenuControl {
 	public static class VariableMenuCreator<TUserData, TVariable> where TUserData : UserData {
+		private static Dictionary<string, VariableUserMenu<TUserData, TVariable>> _registeredMenus = new Dictionary<string, VariableUserMenu<TUserData, TVariable>>();
+
 		public static VariableUserMenu<TUserData, TVariable> CreateVariableMenu(
 				MenuController controller,
 				Expression<Func<TUserData, TVariable>> memberExpression,
 				Func<string, TVariable> parse) {
 			var menu = new VariableUserMenu<TUserData, TVariable>(controller, memberExpression, parse);
 
-			try {
+			if (!_registeredMenus.ContainsKey(menu.MenuName)) {
 				controller.RegisterMenuInstance(menu);
-			} catch (ArgumentException) { }
+				_registeredMenus[menu.MenuName] = menu;
+			}
 
 			return menu;
 		}
