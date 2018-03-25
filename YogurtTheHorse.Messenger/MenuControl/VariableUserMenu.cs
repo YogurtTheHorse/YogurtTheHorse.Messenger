@@ -9,16 +9,23 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 		protected bool IsProperty { get; }
 		protected MemberExpression MemberExpression { get; }
 		protected Func<string, TVariable> Parse { get; }
+		protected Action<Message, UserData> OnVariableSet { get; }
 
 		protected override string StartMessage { get; }
 		public override string MenuName => MemberExpression.Member.Name + "Menu";
 
 
-		internal VariableUserMenu(MenuController menuController, Expression<Func<TUserData, TVariable>> memberExpression, Func<string, TVariable> parse)
+		internal VariableUserMenu(
+			MenuController menuController, Expression
+			<Func<TUserData, TVariable>> memberExpression, 
+			Func<string, TVariable> parse, 
+			Action<Message, UserData> onVariableSet)
 		: base(menuController) {
 			StartMessage = "Please specify variable:";
 			Parse = parse;
+			OnVariableSet = onVariableSet;
 			MemberExpression = memberExpression.Body as MemberExpression;
+
 			if (memberExpression is null) {
 				throw new ArgumentException($"Expression '{memberExpression}' refers to a method, not a property.");
 			}
@@ -34,7 +41,8 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			} else {
 				(MemberExpression.Member as FieldInfo).SetValue(userData, parsed);
 			}
-			Back(message.Recipient, userData);
+			
+			OnVariableSet(message, userData);
 		}
 	}
 }
