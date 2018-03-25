@@ -11,11 +11,12 @@ namespace Commentgram.Bot.Menus.AccountMenus {
 
 		public AccountMenu(MenuController menuController) : base(menuController) {
 			Layout = new ButtonInfo[][] {
-				new [] {
-					new ButtonInfoBuilder().NavigateTo<WalletMenu>().Text("{AccountMenu.WalletNumberMenu}").ToButton()
+				new ButtonInfo[] {
+					new ButtonInfoBuilder().NavigateTo<WalletMenu>().Text("{AccountMenu.WalletNumberMenu}"),
+					new ButtonInfoBuilder().NavigateTo<MoneyMenu>().Text("{AccountMenu.MoneyMenu}")
 				},
-				new [] {
-					new ButtonInfoBuilder().BackButton().ToButton()
+				new ButtonInfo[] {
+					new ButtonInfoBuilder().BackButton()
 				}
 			};
         }

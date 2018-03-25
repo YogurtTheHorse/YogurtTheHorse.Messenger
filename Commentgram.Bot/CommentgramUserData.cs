@@ -9,10 +9,12 @@ namespace Commentgram.Bot {
 
 		public string YandexWallet { get; set; }
 
+		public decimal Amount { get; set; }
 
 		public CommentgramUserData(string userID) : base(userID) {
 			MenuStack.Push("MainMenu");
 			Locale = "ru";
+			Amount = 0;
 		}
 	}
 }
