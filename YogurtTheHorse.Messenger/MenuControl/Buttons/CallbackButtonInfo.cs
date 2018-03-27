@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 	public sealed class CallbackButtonInfo : ButtonInfo {

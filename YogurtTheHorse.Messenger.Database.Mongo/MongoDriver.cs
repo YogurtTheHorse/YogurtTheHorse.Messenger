@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using YogurtTheHorse.Messenger.MenuControl;
+using YogurtTheHorse.Messenger.MenuControl.Menus;
 
 namespace YogurtTheHorse.Messenger.Database.Mongo {
 	public class MongoDriver : IDatabaseDriver {
