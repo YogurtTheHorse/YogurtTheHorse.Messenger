@@ -43,7 +43,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 		}
 
 		public bool ContainsMenu(string menuName) {
-			return !(_menus.ContainsKey(menuName) || GlobalMenus.ContainsKey(menuName));
+			return _menus.ContainsKey(menuName) || GlobalMenus.ContainsKey(menuName);
 		}
 
 		public IUserMenu GetMenu(string menuName) {
