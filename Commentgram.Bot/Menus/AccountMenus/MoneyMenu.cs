@@ -8,26 +8,22 @@ namespace Commentgram.Bot.Menus.AccountMenus {
 		protected override string StartMessage => "{AccountMenu.WalletMenu.StartMessage}";
 
 		public MoneyMenu(MenuController menuController) {
-			Layout = new ButtonInfo[][] {
-				new ButtonInfo[] {
-					new VariableMenuBuilder<string, CommentgramUserData>().
+			Layout = new LayoutBuilder().
+					AddButton(new VariableMenuBuilder<string, CommentgramUserData>().
 						SetMember(u => u.YandexWallet).
 						Build().
 						NavigateTo().
-						Text("{AccountMenu.WalletMenu.ChangeWallet}"),
+						Text("{AccountMenu.WalletMenu.ChangeWallet}")).
 
-					new ButtonInfoBuilder().
+					AddButton(new ButtonInfoBuilder().
 						Text("{AccountMenu.WalletMenu.DeleteWallet}").
 						Callback((s, e) => {
 							(e.UserData as CommentgramUserData).YandexWallet = null;
 							Open(e.User, e.UserData, this);
 						}).
-						HideCondition((u, d) => (d as CommentgramUserData).YandexWallet is null)
-				},
-				new [] {
-					new ButtonInfoBuilder().BackButton().ToButton()
-				}
-			};
+						HideCondition((u, d) => (d as CommentgramUserData).YandexWallet is null)).
+				NextRow().
+					AddButton(ButtonInfoBuilder.BackButton);
 		}
 	}
 }

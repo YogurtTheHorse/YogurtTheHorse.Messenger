@@ -25,7 +25,7 @@ namespace Commentgram.Bot.Menus.AccountMenus {
 						HideCondition((u, d) => (d as CommentgramUserData).YandexWallet is null)
 				},
 				new [] {
-					new ButtonInfoBuilder().BackButton().ToButton()
+					new ButtonInfoBuilder().Back().ToButton()
 				}
 			};
 		}
