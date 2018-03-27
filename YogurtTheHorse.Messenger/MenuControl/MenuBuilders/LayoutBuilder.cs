@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
 
 namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
@@ -29,7 +28,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 			_oneTimeKeyboard = oneTime;
 			return this;
 		}
-
+		
 		public LayoutBuilder LayoutType(EButtonType layoutType) {
 			_layoutType = layoutType;
 			return this;

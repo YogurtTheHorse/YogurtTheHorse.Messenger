@@ -10,6 +10,8 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		protected Action<object, ButtonActionEventArgs> _callback;
 		protected Func<User, UserData, bool> _condition = (u, ud) => false;
 
+		public static ButtonInfo BackButton => new ButtonInfoBuilder().Back();
+
 		public ButtonInfoBuilder Text(string text) {
 			_text = text ?? throw new ArgumentNullException(nameof(text));
 			return this;
@@ -58,7 +60,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 			return this;
 		}
 
-		public ButtonInfoBuilder BackButton() {
+		public ButtonInfoBuilder Back() {
 			return BackCallback().Text("{Back}");
 		}
 
