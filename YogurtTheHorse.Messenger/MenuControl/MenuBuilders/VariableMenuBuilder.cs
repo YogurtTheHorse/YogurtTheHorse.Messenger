@@ -15,6 +15,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		protected internal Action<TVariable, Message, UserData> _onParsed;
 		protected internal ButtonLayout _layout = new ButtonLayout();
 		protected internal Action<Exception, Message, UserData> _onParseError = null;
+		protected internal string _menuName = typeof(TVariable).FullName + "Menu";
 
 		public VariableMenuBuilder() {
 			_startMessage = "Specify variable:";
@@ -27,6 +28,11 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 			} else {
 				_parse = null;
 			}
+		}
+
+		public VariableMenuBuilder<TVariable> MenuName(string text) {
+			_menuName = text;
+			return this;
 		}
 
 		public VariableMenuBuilder<TVariable> StartMessage(string text) {
@@ -72,6 +78,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 
 		public virtual VariableMenu<TVariable> ToMenu() {
 			return new VariableMenu<TVariable>(
+					_menuName,
 					_startMessage,
 					_parse,
 					_onParsed,
@@ -89,6 +96,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 
 		public VariableMenuBuilder<TVariable, TUserData> SetMember(Expression<Func<TUserData, TVariable>> expression) {
 			_memberExpression = expression.Body as MemberExpression;
+			_menuName = typeof(TUserData).FullName + "_" + _memberExpression.Member.Name + "_Menu";
 
 			if (_memberExpression is null) {
 				throw new ArgumentException($"Expression '{expression}' refers to a method, not a property.");
@@ -99,6 +107,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 
 		public override VariableMenu<TVariable> ToMenu() {
 			return new VariableMenu<TVariable>(
+				_menuName,
 				_startMessage,
 				_parse,
 				OnParsed,

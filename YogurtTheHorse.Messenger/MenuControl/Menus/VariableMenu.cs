@@ -14,13 +14,14 @@ namespace YogurtTheHorse.Messenger.MenuControl.Menus {
 		public virtual string MenuName { get; }
 
 		internal VariableMenu(
+				string menuName,
 				string startMessage,
 				Func<string, TVariable> parse,
 				Action<TVariable, Message, UserData> onParsed,
 				ButtonLayout layout,
 				Action<Exception, Message, UserData> onParseError=null) {
 
-			MenuName = $"{typeof(TVariable).GetType()}Menu";
+			MenuName = menuName;
 
 			StartMessage = startMessage ?? throw new ArgumentNullException(nameof(startMessage));
 			Parse = parse ?? throw new ArgumentNullException(nameof(parse));
