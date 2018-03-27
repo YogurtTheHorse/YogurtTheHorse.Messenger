@@ -6,7 +6,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 	public class ButtonLayout {
 		public static DefaultButtonLayoutValues DefaultButtonLayoutValues { get; set; }
 
-		protected List<List<ButtonInfo>> Buttons;
+		protected internal List<List<ButtonInfo>> Buttons;
 
 		public virtual EButtonType LayoutType { get; }
 		public virtual bool ResizeKeyboard { get; }

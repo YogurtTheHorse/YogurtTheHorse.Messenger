@@ -6,7 +6,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 	public sealed class LayoutBuilder {
 		private List<List<ButtonInfo>> _buttons;
 
-		private EButtonType _layoutType = EButtonType.Other;
+		private EButtonType _layoutType = EButtonType.Usual;
 		private bool _resizeKeyboard;
 		private bool _oneTimeKeyboard;
 
@@ -51,7 +51,9 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		}
 
 		public ButtonLayout Build() {
-			return new ButtonLayout((ICollection<ICollection<ButtonInfo>>)_buttons, _resizeKeyboard, _oneTimeKeyboard);
+			return new ButtonLayout(_resizeKeyboard, _oneTimeKeyboard) {
+				Buttons = _buttons
+			};
 		}
 
 		public static implicit operator ButtonLayout(LayoutBuilder builder) {
