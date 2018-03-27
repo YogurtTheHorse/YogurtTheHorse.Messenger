@@ -37,6 +37,7 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 				_logger.Error($"Tried to open unexisting menu: {menuName}");
 				return;
 			}
+		
 			userData.MenuStack.Push(menuName);
 			GetMenu(menuName).Open(user, userData, this);
 		}
