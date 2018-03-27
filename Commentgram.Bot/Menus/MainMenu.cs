@@ -1,9 +1,6 @@
-using System;
-
 using Commentgram.Bot.Layouts;
-using YogurtTheHorse.Messenger;
 using YogurtTheHorse.Messenger.MenuControl;
-using YogurtTheHorse.Messenger.MenuControl.Buttons;
+using YogurtTheHorse.Messenger.MenuControl.Menus;
 
 namespace Commentgram.Bot.Menus {
 	public class MainMenu : SimpleUserMenu {
@@ -11,7 +8,7 @@ namespace Commentgram.Bot.Menus {
 
 		public override string MenuName => "MainMenu";
 
-		public MainMenu(MenuController menuController) : base(menuController) {
+		public MainMenu(MenuController menuController) {
 			Layout = new MainMenuLayout();
 		}
 	}

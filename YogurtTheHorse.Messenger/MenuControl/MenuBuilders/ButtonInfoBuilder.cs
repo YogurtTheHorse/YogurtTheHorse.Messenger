@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using YogurtTheHorse.Messenger.MenuControl.Buttons;
+using YogurtTheHorse.Messenger.MenuControl.Menus;
 
-namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
+namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 	public class ButtonInfoBuilder {
 		protected EButtonType _buttonType = EButtonType.Usual;
 		protected string _text;

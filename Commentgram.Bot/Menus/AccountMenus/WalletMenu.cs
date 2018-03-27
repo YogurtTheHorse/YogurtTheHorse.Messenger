@@ -1,16 +1,19 @@
 ﻿using YogurtTheHorse.Messenger.MenuControl;
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
+using YogurtTheHorse.Messenger.MenuControl.MenuBuilders;
+using YogurtTheHorse.Messenger.MenuControl.Menus;
 
 namespace Commentgram.Bot.Menus.AccountMenus {
 	public class WalletMenu : SimpleUserMenu {
 		protected override string StartMessage => "{AccountMenu.WalletMenu.StartMessage}";
 
-		public WalletMenu(MenuController menuController) : base(menuController) {
+		public WalletMenu(MenuController menuController) : base() {
 			Layout = new ButtonInfo[][] {
 				new ButtonInfo[] {
-					VariableMenuCreator<CommentgramUserData, string>.
-						CreateVariableMenu(menuController, u => u.YandexWallet).
-						GetNavigationButton().
+					new VariableMenuBuilder<string, CommentgramUserData>().
+						SetMember(u => u.YandexWallet).
+						Build().
+						NavigateTo().
 						Text("{AccountMenu.WalletMenu.ChangeWallet}"),
 
 					new ButtonInfoBuilder().

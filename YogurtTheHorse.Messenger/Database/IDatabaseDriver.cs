@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using YogurtTheHorse.Messenger.MenuControl;
+using YogurtTheHorse.Messenger.MenuControl.Menus;
 
 namespace YogurtTheHorse.Messenger.Database {
 	public interface IDatabaseDriver {
