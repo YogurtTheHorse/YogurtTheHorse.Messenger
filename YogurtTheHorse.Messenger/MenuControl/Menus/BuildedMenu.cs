@@ -7,15 +7,18 @@ namespace YogurtTheHorse.Messenger.MenuControl.Menus {
 		private Action<Message, UserData> _onUnusualMessageAction;
 
 		public override string MenuName { get; }
+		protected override string StartMessage { get; }
 
 		internal BuildedMenu(
 				string menuName,
+				string startMessage,
 				ButtonLayout layout,
 				Action<User, UserData, object> closeAction = null,
 				Action<Message, UserData> onUnusualMessageAction = null,
 				Action<User, UserData, object> openAction = null) {
 			Layout = layout ?? throw new ArgumentNullException(nameof(layout));
 			MenuName = menuName ?? throw new ArgumentNullException(nameof(menuName));
+			StartMessage = startMessage;
 
 			_onUnusualMessageAction = onUnusualMessageAction;
 			_closeAction = closeAction;

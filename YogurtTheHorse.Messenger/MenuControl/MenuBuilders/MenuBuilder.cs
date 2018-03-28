@@ -8,6 +8,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		private Action<User, UserData, object> _closeAction, _openAction;
 		private Action<Message, UserData> _onUnusualMessageAction;
 		private string _menuName;
+		private string _startMessage;
 
 		public MenuBuilder() {
 			_layout = new LayoutBuilder().Build();
@@ -15,6 +16,11 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 
 		public MenuBuilder Name(string name) {
 			_menuName = name ?? throw new ArgumentNullException(nameof(name));
+			return this;
+		}
+
+		public MenuBuilder StartMessage(string message) {
+			_startMessage = message;
 			return this;
 		}
 
@@ -41,6 +47,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		public SimpleUserMenu Build() {
 			return new BuildedMenu(
 				_menuName,
+				_startMessage,
 				_layout,
 				_closeAction,
 				_onUnusualMessageAction,

@@ -4,12 +4,12 @@ using YogurtTheHorse.Messenger.MenuControl.Menus;
 
 namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 	public sealed class MenuControllerBuilder {
-		private List<IUserMenu> _menus;
+		private List<Action<MenuController>> _menusAddingActions;
 		private IMessenger _messenger;
 		private Func<string, UserData> _generateUserData;
 
 		public MenuControllerBuilder() {
-			_menus = new List<IUserMenu>();
+			_menusAddingActions = new List<Action<MenuController>>();
 			_generateUserData = (s) => new UserData(s);
 		}
 
@@ -23,16 +23,21 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 			return this;
 		}
 
-		public MenuControllerBuilder AddMenu(IUserMenu userMenu) {
-			_menus.Add(userMenu);
+		public MenuControllerBuilder AddMenu<TUserMenu>(TUserMenu userMenu) where TUserMenu : IUserMenu {
+			_menusAddingActions.Add((c) => c.RegisterMenuInstance(userMenu));
+			return this;
+		}
+
+		public MenuControllerBuilder AddMenu<TUserMenu>() where TUserMenu : IUserMenu, new() {
+			_menusAddingActions.Add((c) => c.RegisterMenuClass<TUserMenu>());
 			return this;
 		}
 
 		public MenuController Build() {
 			var controller = new MenuController(_messenger, _generateUserData);
 
-			foreach (var menu in _menus) {
-				controller.RegisterMenuInstance(menu);
+			foreach (Action<MenuController> menuRegistration in _menusAddingActions) {
+				menuRegistration(controller);
 			}
 
 			return controller;
