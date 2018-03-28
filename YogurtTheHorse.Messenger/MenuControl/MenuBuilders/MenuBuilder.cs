@@ -53,9 +53,5 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 				_onUnusualMessageAction,
 				_openAction);
 		}
-
-		public static implicit operator SimpleUserMenu(MenuBuilder builder) {
-			return (SimpleUserMenu)builder.Build();
-		}
 	}
 }

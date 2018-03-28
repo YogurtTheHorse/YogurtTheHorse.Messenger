@@ -2,7 +2,7 @@
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
 
 namespace YogurtTheHorse.Messenger.MenuControl.Menus {
-	public class BuildedMenu : SimpleUserMenu {
+	internal class BuildedMenu : SimpleUserMenu {
 		private Action<User, UserData, object> _closeAction, _openAction;
 		private Action<Message, UserData> _onUnusualMessageAction;
 
