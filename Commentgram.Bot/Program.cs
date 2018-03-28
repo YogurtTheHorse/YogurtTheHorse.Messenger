@@ -25,36 +25,31 @@ namespace Commentgram.Bot {
 			mongoDriver.RegisterUserDataClass<CommentgramUserData>();
 			var telegramMessenger = new TelegramMessenger(tokensConfigutaion["telegram_token"], mongoDriver);
 
-			MenuController menuController = Builders.MenuControllerBuilder.
-				Messenger(telegramMessenger).
-				GenerateUserData((s) => new CommentgramUserData(s)).
+			var menuController = new MenuController(telegramMessenger, (s) => new CommentgramUserData(s));
 
-				AddMenu(Builders.MenuBuilder.
-					Name("MainMenu").
-					Layout(new MainMenuLayout()).
-					StartMessage("{MainMenu.StartMessage}").
-					Build()).
+			menuController.RegisterMenuInstance(Builders.MenuBuilder.
+				Name("MainMenu").
+				Layout(new MainMenuLayout()).
+				StartMessage("{MainMenu.StartMessage}").
+				Build());
 
-				AddMenu(Builders.MenuBuilder.
-					Name("AccountMenu").
-					StartMessage("{AccountMenu.StartMessage}").
-					Layout(Builders.LayoutBuilder.
-							AddButton(new ButtonInfoBuilder().
-								NavigateTo<WalletMenu>().
-								Text("{AccountMenu.WalletNumberMenu}")).
+			menuController.RegisterMenuInstance(Builders.MenuBuilder.
+				Name("AccountMenu").
+				StartMessage("{AccountMenu.StartMessage}").
+				Layout(Builders.LayoutBuilder.
+						AddButton(new ButtonInfoBuilder().
+							NavigateTo<WalletMenu>().
+							Text("{AccountMenu.WalletNumberMenu}")).
 
-							AddButton(new ButtonInfoBuilder().
-								NavigateTo<MoneyMenu>().
-								Text("{AccountMenu.MoneyMenu}")).
+						AddButton(new ButtonInfoBuilder().
+							NavigateTo<MoneyMenu>().
+							Text("{AccountMenu.MoneyMenu}")).
 
-						NextRow().
-							AddButton(ButtonInfoBuilder.BackButton)).
-					Build()).
+					NextRow().
+						AddButton(ButtonInfoBuilder.BackButton)).
+				Build());
 
-				AddMenu<MoneyMenu>().
-				AddMenu<WalletMenu>().
-
-				Build();
+			menuController.RegisterMenuClass<MoneyMenu>();
 
 			mongoDriver.Connect();
 			telegramMessenger.Launch();

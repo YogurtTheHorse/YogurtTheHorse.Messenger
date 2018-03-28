@@ -44,7 +44,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 			return this;
 		}
 
-		public SimpleUserMenu Build() {
+		public IUserMenu Build() {
 			return new BuildedMenu(
 				_menuName,
 				_startMessage,
@@ -55,7 +55,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		}
 
 		public static implicit operator SimpleUserMenu(MenuBuilder builder) {
-			return builder.Build();
+			return (SimpleUserMenu)builder.Build();
 		}
 	}
 }
