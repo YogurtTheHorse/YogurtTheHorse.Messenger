@@ -7,7 +7,7 @@ namespace Commentgram.Bot.Menus.AccountMenus {
 	public class MoneyMenu : SimpleUserMenu {
 		protected override string StartMessage => "{AccountMenu.WalletMenu.StartMessage}";
 
-		public MoneyMenu(MenuController menuController) {
+		public MoneyMenu() {
 			Layout = new LayoutBuilder().
 					AddButton(new VariableMenuBuilder<string, CommentgramUserData>().
 						SetMember(u => u.YandexWallet).

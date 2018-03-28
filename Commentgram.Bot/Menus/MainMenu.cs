@@ -8,7 +8,7 @@ namespace Commentgram.Bot.Menus {
 
 		public override string MenuName => "MainMenu";
 
-		public MainMenu(MenuController menuController) {
+		public MainMenu() {
 			Layout = new MainMenuLayout();
 		}
 	}

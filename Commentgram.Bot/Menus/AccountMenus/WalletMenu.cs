@@ -7,7 +7,7 @@ namespace Commentgram.Bot.Menus.AccountMenus {
 	public class WalletMenu : SimpleUserMenu {
 		protected override string StartMessage => "{AccountMenu.WalletMenu.StartMessage}";
 
-		public WalletMenu(MenuController menuController) : base() {
+		public WalletMenu() {
 			Layout = new ButtonInfo[][] {
 				new ButtonInfo[] {
 					new VariableMenuBuilder<string, CommentgramUserData>().
