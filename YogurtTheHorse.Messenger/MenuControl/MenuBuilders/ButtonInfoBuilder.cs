@@ -55,9 +55,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		}
 
 		public ButtonInfoBuilder NavigateTo<TUserMenu>() where TUserMenu : IUserMenu {
-			_callback = (s, e) => e.MenuController.OpenMenu(e.User, e.UserData, typeof(TUserMenu).Name);
-
-			return this;
+			return NavigateTo(typeof(TUserMenu).Name);
 		}
 
 		public ButtonInfoBuilder Back() {
