@@ -59,6 +59,11 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			GetMenu(userData.MenuStack.Peek()).Open(user, userData, this);
 		}
 
+		public void Switch(User user, UserData userData, string menuName) {
+			GetMenu(userData.MenuStack.Pop()).Close(user, userData, this);
+			OpenMenu(user, userData, menuName);
+		}
+
 		public void RegisterMenuInstance<TUserMenu>(TUserMenu menu) where TUserMenu : IUserMenu {
 			if (_menus.ContainsKey(menu.MenuName)) {
 				throw new ArgumentException($"{menu.MenuName} already registered");
