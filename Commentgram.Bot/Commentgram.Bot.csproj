@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="InstaSharp" Version="2.0.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+    <PackageReference Include="Yandex.Money.Api.Sdk" Version="1.4.5" />
   </ItemGroup>
 
   <ItemGroup>

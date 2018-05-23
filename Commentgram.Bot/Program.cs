@@ -27,27 +27,9 @@ namespace Commentgram.Bot {
 
 			var menuController = new MenuController(telegramMessenger, (s) => new CommentgramUserData(s));
 
-			menuController.RegisterMenuInstance(Builders.MenuBuilder.
-				Name("MainMenu").
-				Layout(new MainMenuLayout()).
-				StartMessage("{MainMenu.StartMessage}").
-				Build());
-
-			menuController.RegisterMenuInstance(Builders.MenuBuilder.
-				Name("AccountMenu").
-				StartMessage("{AccountMenu.StartMessage}").
-				Layout(Builders.LayoutBuilder.
-						AddButton(new ButtonInfoBuilder().
-							NavigateTo<WalletMenu>().
-							Text("{AccountMenu.WalletNumberMenu}")).
-
-						AddButton(new ButtonInfoBuilder().
-							NavigateTo<MoneyMenu>().
-							Text("{AccountMenu.MoneyMenu}")).
-
-					NextRow().
-						AddButton(ButtonInfoBuilder.BackButton)).
-				Build());
+			menuController.RegisterMenuClass<AccountMenu>();
+			menuController.RegisterMenuClass<MainMenu>();
+			menuController.RegisterMenuClass<InstagramCreditanalsMenu>();
 
 			menuController.RegisterMenuClass<MoneyMenu>();
 
