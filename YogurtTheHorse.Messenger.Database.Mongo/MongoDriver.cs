@@ -1,6 +1,9 @@
-﻿using MongoDB.Bson.Serialization;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YogurtTheHorse.Messenger.MenuControl;
@@ -11,12 +14,22 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 		private IMongoDatabase _database;
 		private IMongoCollection<User> _usersCollection;
 		private IMongoCollection<UserData> _usersDataCollection;
+		private Dictionary<string, IQueryable> _collections;
 
 		public string DatabaseName { get; protected set; }
 
-		public MongoDriver(string databaseName) {
+		public MongoDriver(string databaseName, bool enumAsStrings = false) {
 			DatabaseName = databaseName;
-			
+			_collections = new Dictionary<string, IQueryable>();
+
+			if (enumAsStrings) {
+				var pack = new ConventionPack {
+					new EnumRepresentationConvention(BsonType.String)
+				};
+
+				ConventionRegistry.Register("EnumConventionAsString", pack, t => true);
+			}
+
 			BsonClassMap.RegisterClassMap<User>(cm => {
 				cm.AutoMap();
 				cm.SetIdMember(cm.GetMemberMap(c => c.UserID));
@@ -103,6 +116,25 @@ namespace YogurtTheHorse.Messenger.Database.Mongo {
 
 		private FilterDefinition<User> GetUserFilter(string id) {
 			return Builders<User>.Filter.Eq(u => u.UserID, id);
+		}
+
+		public void RegisterOtherCollection<T>(string name) {
+		if (!BsonClassMap.IsClassMapRegistered(typeof(T))) {
+				BsonClassMap.RegisterClassMap<T>(cm => cm.AutoMap());
+		}
+			_collections.Add(name, _database.GetCollection<T>(name).AsQueryable());
+		}
+
+		public IQueryable<T> GetQueryable<T>(string name) {
+			if (!_collections.ContainsKey(name)) {
+				RegisterOtherCollection<T>(name);
+			}
+
+			return (IQueryable<T>)_collections[name];
+		}
+
+		public void InsertToCollection<T>(string name, T o) {
+			_database.GetCollection<T>(name).InsertOne(o);
 		}
 	}
 }
