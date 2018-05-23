@@ -29,6 +29,9 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			_menus = new ConcurrentDictionary<string, IUserMenu>();
 
 			Messenger.OnIncomingMessage += OnMessage;
+
+			_database.RegisterUserMenuClass<BuildedMenu>();
+			_database.RegisterUserMenuClass<SimpleUserMenu>();
 		}
 
 
@@ -68,8 +71,9 @@ namespace YogurtTheHorse.Messenger.MenuControl {
 			if (_menus.ContainsKey(menu.MenuName)) {
 				throw new ArgumentException($"{menu.MenuName} already registered");
 			}
-
-			_database.RegisterUserMenuClass<TUserMenu>();
+			if (!(menu is BuildedMenu)) {
+				_database.RegisterUserMenuClass<TUserMenu>();
+			}
 			_menus[menu.MenuName] = menu;
 		}
 
