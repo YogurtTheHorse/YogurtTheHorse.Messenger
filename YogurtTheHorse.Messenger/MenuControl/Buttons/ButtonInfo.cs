@@ -1,4 +1,5 @@
 ﻿using System;
+using YogurtTheHorse.Messenger.Database;
 
 namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 	public class ButtonInfo {
@@ -20,6 +21,9 @@ namespace YogurtTheHorse.Messenger.MenuControl.Buttons {
 		public User User { get; set; }
 		public UserData UserData { get; set; }
 		public MenuController MenuController { get; set; }
+
+		public IDatabaseDriver Database => Messenger.Database;
+		public IMessenger Messenger => MenuController.Messenger;
 
 		public EButtonType ButtonClickType { get; set; }
 		public object Data { get; set; }
