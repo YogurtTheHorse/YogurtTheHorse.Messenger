@@ -19,6 +19,8 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 			_oneTimeKeyboard = ButtonLayout.DefaultButtonLayoutValues.OneTimeKeyboard;
 		}
 
+		public readonly ButtonLayout Empty = new ButtonLayout();
+
 		public LayoutBuilder Reize(bool resize) {
 			_resizeKeyboard = resize;
 			return this;
@@ -28,7 +30,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 			_oneTimeKeyboard = oneTime;
 			return this;
 		}
-		
+
 		public LayoutBuilder LayoutType(EButtonType layoutType) {
 			_layoutType = layoutType;
 			return this;
@@ -51,7 +53,7 @@ namespace YogurtTheHorse.Messenger.MenuControl.MenuBuilders {
 		}
 
 		public ButtonLayout Build() {
-			return new ButtonLayout(_resizeKeyboard, _oneTimeKeyboard) {
+			return new ButtonLayout(_resizeKeyboard, _oneTimeKeyboard, _layoutType) {
 				Buttons = _buttons
 			};
 		}
