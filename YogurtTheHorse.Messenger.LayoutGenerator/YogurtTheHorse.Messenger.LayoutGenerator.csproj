@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>YogurtTheHorse.Messenger</Authors>
+    <Company>YogurtTheHorse.Messenger</Company>
+    <Description>Tools for creating menus for YogurtTheHorse.Messenger</Description>
   </PropertyGroup>
 
   <ItemGroup>

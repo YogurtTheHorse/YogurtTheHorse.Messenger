@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>YogurtTheHorse</Authors>
+    <Company />
+    <Description>Simple C# tools for messengers. For now works only with telegram and mongodb</Description>
   </PropertyGroup>
 
   <ItemGroup>
