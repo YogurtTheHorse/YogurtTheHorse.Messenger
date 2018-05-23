@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using YogurtTheHorse.Messenger.MenuControl.Buttons;
+using YogurtTheHorse.Messenger.MenuControl.MenuBuilders;
 
 namespace YogurtTheHorse.Messenger {
 	public sealed class User {
@@ -27,6 +28,10 @@ namespace YogurtTheHorse.Messenger {
 
 		public void SendMessage(string text, ButtonLayout layout) {
 			AsyncHelpers.RunSync(() => SendMessageAsync(text, layout));
+		}
+
+		public void SendMessage(string text) {
+			SendMessage(text, Builders.LayoutBuilder.Empty);
 		}
 
 		public async Task SendMessageAsync(string text, ButtonLayout layout) {
